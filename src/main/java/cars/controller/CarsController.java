@@ -7,8 +7,7 @@ import cars.service.main.IRentCompany;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
+@CrossOrigin(origins="*")
 @RestController
 public class CarsController {
 	@Autowired
@@ -52,116 +51,124 @@ public class CarsController {
 
 	// ************RentCompany*********************************
 	// -----------addModel------------------------------------
+//	@ApiOperation(value = "Adding a new quartes to DataBase", response = Response.class)
+//	@ApiResponses(value = {
+//	@ApiResponse(code = 200, message = "Successfully added quartes"),
+//	@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+//	@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+//	@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+
 	@PostMapping(value = CarsApiConstants.ADD_MODEL)
-	CarsReturnCode addModel(@RequestBody ModelDto carModel) {
+	Response addModel(@RequestBody ModelDto carModel) {
 		return company.addModel(carModel);
 	}
 
 	// -----------addCar--------------------------------------
+
 	@PostMapping(value = CarsApiConstants.ADD_CAR)
-	CarsReturnCode addCar(@RequestBody CarDto carDto) {
+	Response addCar(@RequestBody CarDto carDto) {
 		return company.addCar(carDto);
 	}
 	// -----------addDriver-----------------------------------
 
 	@PostMapping(value = CarsApiConstants.ADD_DRIVER)
-	CarsReturnCode addDriver(@RequestBody DriverDto driverDto) {
+	Response addDriver(@RequestBody DriverDto driverDto) {
 		return company.addDriver(driverDto);
 	}
 
 	// -----------getModel------------------------------------
 	@GetMapping(value = CarsApiConstants.GET_MODEL + "/{modelName}")
-	ModelDto getModel(@PathVariable(value = "modelName") String modelName) {
+	Response getModel(@PathVariable(value = "modelName") String modelName) {
 		return company.getModel(modelName);
 	}
 
 	// -------------getCar-------------------------------------
 	@RequestMapping(value = CarsApiConstants.GET_CAR + "/{carNumber}")
-	CarDto getCar(@PathVariable(value = "carNumber") String carNumber) {
+	Response getCar(@PathVariable(value = "carNumber") String carNumber) {
 		return company.getCar(carNumber);
 	}
 
 	// --------------getDriver---------------------------------
 	@RequestMapping(value = CarsApiConstants.GET_DRIVER + "/{licenseId}")
-	DriverDto getDriver(@PathVariable(value = "licenseId") long licenseId) {
+	Response getDriver(@PathVariable(value = "licenseId") long licenseId) {
 		return company.getDriver(licenseId);
 	}
 
 	// ---------------rentCar---------------------------------
 	@PostMapping(value = CarsApiConstants.RENT_CAR)
-	CarsReturnCode rentCar(@RequestBody RecordDto record) {
+	Response rentCar(@RequestBody RecordDto record) {
 		return company.rentCar(record);
 	}
 
 	// ---------------returnCar-------------------------------
 	@PostMapping(value = CarsApiConstants.RETURN_CAR)
-	CarsReturnCode returnCar(@RequestBody RecordDto record) {
+	Response returnCar(@RequestBody RecordDto record) {
 		return company.returnCar(record);
 	}
 
 	// ---------------removeCar-------------------------------
 	@DeleteMapping(value = CarsApiConstants.REMOVE_CAR + "/{carNumber}")
-	CarsReturnCode removeCar(@PathVariable(value = "carNumber") String carNumber) {
+	Response removeCar(@PathVariable(value = "carNumber") String carNumber) {
 		return company.removeCar(carNumber);
 	}
 
 	// ---------------clearCar--------------------------------
 	@PostMapping(value = CarsApiConstants.CLEAR_CARS)
-	List<CarDto> clearCars(@RequestBody DateDays dd) {
-		return company.clear(dd.date, dd.days);
+	Response clearCars(@RequestBody DateDays dd) {
+		return company.clear(dd);
 	}
 
 	// ---------------getCarDrivers---------------------------
 	@GetMapping(value = CarsApiConstants.GET_CAR_DRIVERS + "/{carNumber}")
-	List<DriverDto> getCarDrivers(@PathVariable(value = "carNumber") String carNumber) {
+	Response getCarDrivers(@PathVariable(value = "carNumber") String carNumber) {
 		return company.getCarDrivers(carNumber);
 	}
 
 	// ----------------getDriverCars--------------------------
 	@GetMapping(value = CarsApiConstants.GET_DRIVER_CARS + "/{licenseId}")
-	List<CarDto> getDriverCars(@PathVariable(value = "licenseId") long licenseId) {
+	Response getDriverCars(@PathVariable(value = "licenseId") long licenseId) {
 		return company.getDriverCars(licenseId);
 	}
 
 	// ----------------getAllModels---------------------------
 	@GetMapping(value = CarsApiConstants.GET_ALL_MODELS)
-	List<String> getAllModels() {
+	Response getAllModels() {
 		return company.getAllModelNames();
 	}
 
 	// ----------------getAllCars-----------------------------
 	@GetMapping(value = CarsApiConstants.GET_ALL_CARS)
-	Iterable<CarDto> getAllCars() {
+	Response getAllCars() {
 		return company.getAllCars();
 	}
 
 	// ----------------getAllDrivers--------------------------
 	@GetMapping(value = CarsApiConstants.GET_ALL_DRIVERS)
-	List<DriverDto> getAllDrivers() {
+	Response getAllDrivers() {
 		return company.getAllDrivers();
 	}
 
 	// ----------------getAllRecords--------------------------
 	@GetMapping(value = CarsApiConstants.GET_ALL_RECORDS)
-	List<RecordDto> getAllRecords() {
+	Response getAllRecords() {
 		return company.getAllRecords();
 	}
 
 	// ----------------getMostPopularModels-------------------
 	@GetMapping(value = CarsApiConstants.MOST_POPULAR_MODELS)
-	Iterable<String> getMostPopularModels() {
+	Response getMostPopularModels() {
 		return company.getMostPopularModelNames();
 	}
 
 	// -----------------getMostProfitModels------------------
 	@GetMapping(value = CarsApiConstants.MOST_PROFIT_MODELS)
-	Iterable<String> getMostProfitModels() {
+	Response getMostProfitModels() {
 		return company.getMostProfitModelNames();
 	}
 
 	// -----------------getModelProfit---------------------------
 	@GetMapping(value = CarsApiConstants.GET_PROFIT_MODEL + "/{modelName}")
-	double getModelProfit(@PathVariable(value = "modelName") String modelName) {
+	Response getModelProfit(@PathVariable(value = "modelName") String modelName) {
 		return company.getModelProfit(modelName);
 	}
 	// -----------------------------------------------------------

@@ -50,5 +50,7 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 	@Query(value="select distinct a from Car a join Record b on a.regNumber=b.car.regNumber "
 			+ "where a.flRemoved = true and b.returnDate<:dateDelete",nativeQuery=false)
 	List<Car> removeCars(@Param(value = "dateDelete") LocalDate dateDelete);
+	// ------------------------------------------------------------------------------------
+	List<Record> findByCarFlRemovedTrueOrReturnDateBefore(LocalDate dateDelete);
 
 }
