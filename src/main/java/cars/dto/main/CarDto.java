@@ -1,80 +1,69 @@
 package cars.dto.main;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
-@NoArgsConstructor
-@Setter
-@Getter
-@ToString
-@EqualsAndHashCode
-
 public class CarDto {
-	private String regNumber;
-	private String color;
-	private State state;
-	private String modelName;
-	private boolean inUse;
-	private boolean flRemoved;
+    private String regNumber;
+    private String color;
+    private State state;
+    private String modelName;
+    private boolean inUse;
+    private boolean flRemoved;
 
-	public String getRegNumber() {
-		return regNumber;
-	}
+    public CarDto() {
+    }
 
-	public String getColor() {
-		return color;
-	}
+    // **************** Getters*********************
+    public String getRegNumber() {
+        return regNumber;
+    }
 
-	public State getState() {
-		return state;
-	}
+    public String getColor() {
+        return color;
+    }
 
-	public String getModelName() {
-		return modelName;
-	}
+    public State getState() {
+        return state;
+    }
 
-	public boolean isInUse() {
-		return inUse;
-	}
+    public String getModelName() {
+        return modelName;
+    }
 
-	public boolean isFlRemoved() {
-		return flRemoved;
-	}
+    public boolean isInUse() {
+        return inUse;
+    }
 
-	public void setRegNumber(String regNumber) {
-		this.regNumber = regNumber;
-	}
+    public boolean isFlRemoved() {
+        return flRemoved;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    // **************** Setters*********************
+    public CarDto setRegNumber(String regNumber) {
+        this.regNumber = regNumber;
+        return this;
+    }
 
-	public void setState(State state) {
-		this.state = state;
-	}
+    public CarDto setColor(String color) {
+        this.color = color;
+        return this;
+    }
 
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
-	}
+    public CarDto setState(State state) {
+        this.state = state;
+        return this;
+    }
 
-	public void setInUse(boolean inUse) {
-		this.inUse = inUse;
-	}
+    public CarDto setModelName(String modelName) {
+        this.modelName = modelName;
+        return this;
+    }
 
-	public void setFlRemoved(boolean flRemoved) {
-		this.flRemoved = flRemoved;
-	}
+    public CarDto setInUse(boolean inUse) {
+        this.inUse = inUse;
+        return this;
+    }
 
-	public CarDto(String regNumber, String color, String modelName) {
-		this.regNumber = regNumber;
-		this.color = color;
-		this.modelName = modelName;
-		state = State.EXCELLENT;
-
-
-	}
-
+    public CarDto setFlRemoved(boolean flRemoved) {
+        this.flRemoved = flRemoved;
+        return this;
+    }
 }

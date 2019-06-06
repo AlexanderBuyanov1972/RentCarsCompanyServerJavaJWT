@@ -1,99 +1,92 @@
 package cars.entities.main;
 
 import cars.dto.main.State;
-import lombok.*;
-
 import javax.persistence.*;
 import java.util.List;
 
 @Table(name = "cars")
 @Entity
-@NoArgsConstructor
-@Setter
-@Getter
-@ToString
-@EqualsAndHashCode
 public class Car {
 
-	@Id
-	private String regNumber;
-	private String color;
-	@Enumerated(EnumType.STRING)
-	private State state;
-	private boolean inUse;
-	private boolean flRemoved;
-	@ManyToOne
-	private Model model;
-	@OneToMany(mappedBy = "car", cascade = CascadeType.REMOVE) // physical removing car will cause removing
+    @Id
+    private String regNumber;
+    private String color;
+    @Enumerated(EnumType.STRING)
+    private State state;
+    private boolean inUse;
+    private boolean flRemoved;
+    @ManyToOne
+    private Model model;
+    @OneToMany(mappedBy = "car", cascade = CascadeType.REMOVE) // physical removing car will cause removing
 //all related records
-	List<Record> records;
+    private List<Record> records;
 
-	public String getRegNumber() {
-		return regNumber;
-	}
+    public Car() {
+    }
 
-	public void setRegNumber(String regNumber) {
-		this.regNumber = regNumber;
-	}
+    // *****************Getters****************************
+    public String getRegNumber() {
+        return regNumber;
+    }
 
-	public String getColor() {
-		return color;
-	}
+    public String getColor() {
+        return color;
+    }
 
-	public void setColor(String color) {
-		this.color = color;
-	}
+    public State getState() {
+        return state;
+    }
 
-	public State getState() {
-		return state;
-	}
+    public boolean isInUse() {
+        return inUse;
+    }
 
-	public void setState(State state) {
-		this.state = state;
-	}
+    public boolean isFlRemoved() {
+        return flRemoved;
+    }
 
-	public boolean isInUse() {
-		return inUse;
-	}
+    public Model getModel() {
+        return model;
+    }
 
-	public void setInUse(boolean inUse) {
-		this.inUse = inUse;
-	}
+    public List<Record> getRecords() {
+        return records;
+    }
 
-	public boolean isFlRemoved() {
-		return flRemoved;
-	}
+    // *****************Setters****************************
+    public Car setRegNumber(String regNumber) {
+        this.regNumber = regNumber;
+        return this;
+    }
 
-	public void setFlRemoved(boolean flRemoved) {
-		this.flRemoved = flRemoved;
-	}
+    public Car setColor(String color) {
+        this.color = color;
+        return this;
+    }
 
-	public Model getModel() {
-		return model;
-	}
+    public Car setState(State state) {
+        this.state = state;
+        return this;
+    }
 
-	public void setModel(Model model) {
-		this.model = model;
-	}
+    public Car setInUse(boolean inUse) {
+        this.inUse = inUse;
+        return this;
+    }
 
-	public List<Record> getRecords() {
-		return records;
-	}
+    public Car setFlRemoved(boolean flRemoved) {
+        this.flRemoved = flRemoved;
+        return this;
+    }
 
-	public void setRecords(List<Record> records) {
-		this.records = records;
-	}
+    public Car setModel(Model model) {
+        this.model = model;
+        return this;
+    }
 
-	public Car(String regNumber, String color, State state, boolean inUse, boolean flRemoved, Model model) {
-		super();
-		this.regNumber = regNumber;
-		this.color = color;
-		this.state = state;
-		this.inUse = inUse;
-		this.flRemoved = flRemoved;
-		this.model = model;
-
-
-	}
+    public Car setRecords(List<Record> records) {
+        this.records = records;
+        return this;
+    }
 
 }

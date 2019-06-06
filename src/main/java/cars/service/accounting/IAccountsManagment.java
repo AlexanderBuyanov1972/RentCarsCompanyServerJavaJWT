@@ -1,15 +1,17 @@
 package cars.service.accounting;
 
+import cars.dto.main.Response;
+
 public interface IAccountsManagment {
 
-	boolean addAccount(String username, String password, String[] roles);
+    Response addAccount(String username, String password, String[] roles);
 
-	boolean removeAccount(String username);
+    Response removeAccount(String username);
 
-	boolean updatePassword(String username, String password);
+    Response updatePassword(String username, String password);
 
-	boolean addRole(String username, String[] roles);
+    Response addRole(String username, String[] roles);
 
-	boolean removeRole(String username, String[] roles);
+    Response removeRole(String username, String[] roles);
 
 }

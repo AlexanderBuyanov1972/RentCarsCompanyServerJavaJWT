@@ -13,41 +13,41 @@ public class CarsController {
 	@Autowired
 	IRentCompany company;
 
-//	@Autowired
-//	IAccountsManagment accounts;
-//
-//	// ******************Accounting*********************************
-//	// ------------------addAccount-------------------------------
-//	@PostMapping(value = "/account")
-//	boolean addAccount(@RequestBody AccountDto accountDto) {
-//		return accounts.addAccount(accountDto.getUsername(), accountDto.getPassword(), accountDto.getRoles());
-//	}
-//
-//	// ------------------removeAccount------------------------------
-//	@DeleteMapping(value = "/account/{username}")
-//	boolean removeAccount(@PathVariable(value = "username") String username) {
-//		return accounts.removeAccount(username);
-//	}
-//
-//	// ------------------updatePassword------------------------------
-//	@PutMapping(value = "/account")
-//	boolean updatePassword(@RequestBody AccountDto accountDto) {
-//		return accounts.updatePassword(accountDto.getUsername(), accountDto.getPassword());
-//	}
-//
-//	// -------------------addRole------------------------------------
-//	@PostMapping(value = "/role")
-//	boolean addRole(@RequestBody AccountDto accountDto) {
-//		return accounts.addRole(accountDto.getUsername(), accountDto.getRoles());
-//
-//	}
-//
-//	// -------------------removeRole---------------------------------
-//	@DeleteMapping(value = "/role")
-//	boolean removeRole(@RequestBody AccountDto accountDto) {
-//		return accounts.removeRole(accountDto.getUsername(), accountDto.getRoles());
-//
-//	}
+	@Autowired
+	IAccountsManagment accounts;
+
+	// ******************Accounting*********************************
+	// ------------------addAccount-------------------------------
+	@PostMapping(value = "/account")
+	Response addAccount(@RequestBody AccountDto accountDto) {
+		return accounts.addAccount(accountDto.getUsername(), accountDto.getPassword(), accountDto.getRoles());
+	}
+
+	// ------------------removeAccount------------------------------
+	@DeleteMapping(value = "/account/{username}")
+	Response removeAccount(@PathVariable(value = "username") String username) {
+		return accounts.removeAccount(username);
+	}
+
+	// ------------------updatePassword------------------------------
+	@PutMapping(value = "/account")
+	Response updatePassword(@RequestBody AccountDto accountDto) {
+		return accounts.updatePassword(accountDto.getUsername(), accountDto.getPassword());
+	}
+
+	// -------------------addRole------------------------------------
+	@PostMapping(value = "/role")
+	Response addRole(@RequestBody AccountDto accountDto) {
+		return accounts.addRole(accountDto.getUsername(), accountDto.getRoles());
+
+	}
+
+	// -------------------removeRole---------------------------------
+	@DeleteMapping(value = "/role")
+	Response removeRole(@RequestBody AccountDto accountDto) {
+		return accounts.removeRole(accountDto.getUsername(), accountDto.getRoles());
+
+	}
 
 	// ************RentCompany*********************************
 	// -----------addModel------------------------------------
@@ -66,9 +66,7 @@ public class CarsController {
 	// -----------addCar--------------------------------------
 
 	@PostMapping(value = CarsApiConstants.ADD_CAR)
-	Response addCar(@RequestBody CarDto carDto) {
-		return company.addCar(carDto);
-	}
+	Response addCar(@RequestBody CarDto carDto) {return company.addCar(carDto); }
 	// -----------addDriver-----------------------------------
 
 	@PostMapping(value = CarsApiConstants.ADD_DRIVER)

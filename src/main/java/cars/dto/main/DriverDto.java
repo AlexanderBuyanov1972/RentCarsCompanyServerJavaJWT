@@ -1,47 +1,55 @@
 package cars.dto.main;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
-@Setter
-@Getter
 @ToString
 @EqualsAndHashCode
 public class DriverDto {
-	private long licenseId;
-	private String name;
-	private int birthYear;
-	private String phone;
+    private long licenseId;
+    private String name;
+    private int birthYear;
+    private String phone;
 
-	public long getLicenseId() {
-		return licenseId;
-	}
+    public DriverDto() {
+    }
 
-	public String getName() {
-		return name;
-	}
+    // **********Getters***************************
+    public long getLicenseId() {
+        return licenseId;
+    }
 
-	public int getBirthYear() {
-		return birthYear;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getPhone() {
-		return phone;
-	}
+    public int getBirthYear() {
+        return birthYear;
+    }
 
-	public DriverDto(long licenseId, String name, int birthYear, String phone) {
-		super();
-		this.licenseId = licenseId;
-		this.name = name;
-		this.birthYear = birthYear;
-		this.phone = phone;
+    public String getPhone() {
+        return phone;
+    }
 
+    // **********Setters***************************
+    public DriverDto setLicenseId(long licenseId) {
+        this.licenseId = licenseId;
+        return this;
+    }
 
+    public DriverDto setName(String name) {
+        this.name = name;
+        return this;
+    }
 
-	}
+    public DriverDto setBirthYear(int birthYear) {
+        this.birthYear = birthYear;
+        return this;
+    }
+
+    public DriverDto setPhone(String phone) {
+        this.phone = phone;
+        return this;
+    }
 
 }

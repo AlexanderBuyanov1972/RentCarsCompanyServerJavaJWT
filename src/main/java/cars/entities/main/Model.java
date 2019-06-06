@@ -1,25 +1,13 @@
 package cars.entities.main;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.List;
 
 @Table(name = "models")
 @Entity
-@NoArgsConstructor
-@Setter
-@Getter
-@ToString
-@EqualsAndHashCode
 public class Model {
 
 	@Id
@@ -29,64 +17,58 @@ public class Model {
 	private String country;
 	private int priceDay;
 	@OneToMany(mappedBy = "model")
-	List<Car> cars;
+	private List<Car> cars;
 
-	public Model(String modelName, int gasTank, String company, String country, int priceDay) {
-		super();
-		this.modelName = modelName;
-		this.gasTank = gasTank;
-		this.company = company;
-		this.country = country;
-		this.priceDay = priceDay;
+	public Model() { }
 
-
-	}
+	// ********** Getters*************************
 
 	public String getModelName() {
 		return modelName;
 	}
-
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
-	}
-
 	public int getGasTank() {
 		return gasTank;
 	}
-
-	public void setGasTank(int gasTank) {
-		this.gasTank = gasTank;
-	}
-
 	public String getCompany() {
 		return company;
 	}
-
-	public void setCompany(String company) {
-		this.company = company;
-	}
-
 	public String getCountry() {
 		return country;
 	}
-
-	public void setCountry(String country) {
-		this.country = country;
-	}
-
 	public int getPriceDay() {
 		return priceDay;
 	}
-
-	public void setPriceDay(int priceDay) {
-		this.priceDay = priceDay;
-	}
-
 	public List<Car> getCars() {
 		return cars;
 	}
 
-	public void setCars(List<Car> cars) {
+	// ***********Setters*************************
+
+	public Model setModelName(String modelName) {
+		this.modelName = modelName;
+		return this;
+	}
+	public Model setGasTank(int gasTank) {
+		this.gasTank = gasTank;
+		return this;
+	}
+
+	public Model setCompany(String company) {
+		this.company = company;
+		return this;
+	}
+
+	public Model setCountry(String country) {
+		this.country = country;
+		return this;
+	}
+
+	public Model setPriceDay(int priceDay) {
+		this.priceDay = priceDay;
+		return this;
+	}
+	public Model setCars(List<Car> cars) {
 		this.cars = cars;
+		return this;
 	}
 }
