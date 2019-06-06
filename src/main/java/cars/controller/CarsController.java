@@ -7,7 +7,7 @@ import cars.service.main.IRentCompany;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins="*")
+@CrossOrigin
 @RestController
 public class CarsController {
 	@Autowired
@@ -57,7 +57,7 @@ public class CarsController {
 //	@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
 //	@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
 //	@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-
+	@CrossOrigin
 	@PostMapping(value = CarsApiConstants.ADD_MODEL)
 	Response addModel(@RequestBody ModelDto carModel) {
 		return company.addModel(carModel);

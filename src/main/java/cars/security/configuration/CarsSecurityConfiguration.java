@@ -10,10 +10,11 @@ import static cars.dto.main.CarsApiConstants.*;
 public class CarsSecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.httpBasic();
+		//httpSecurity.httpBasic();
 		httpSecurity.csrf().disable();
 		//httpSecurity.authorizeRequests().anyRequest().authenticated();
 		httpSecurity.authorizeRequests().anyRequest().permitAll();
+		httpSecurity.cors().disable();
 //		httpSecurity.authorizeRequests().antMatchers(SHUTDOWN).hasRole("ADMIN");//+++
 //		httpSecurity.authorizeRequests().antMatchers(ADD_MODEL, ADD_CAR, REMOVE_CAR).hasRole("MANAGER");
 //		httpSecurity.authorizeRequests().antMatchers(ADD_DRIVER, RENT_CAR, RETURN_CAR).hasRole("CLERK");
