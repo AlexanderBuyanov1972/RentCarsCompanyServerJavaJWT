@@ -19,6 +19,7 @@ public interface CarsApiConstants {
 	String GET_DRIVER_CARS = "/driver/cars";// DRIVER
 	String GET_CAR_DRIVERS = "/car/drivers";// DRIVER
 	//--------------------------------------
+	String GET_ALL_MODEL_NAMES = "/model_names";// ALL with not authentication
 	String GET_ALL_MODELS = "/models";// ALL with not authentication
 	String GET_ALL_CARS = "/cars";// authenticated
 	String GET_ALL_DRIVERS = "/drivers";// DRIVER,CLERK

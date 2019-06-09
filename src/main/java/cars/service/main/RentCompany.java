@@ -304,6 +304,7 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK).setContent(list);
     }
 
+    // *****************************************************************************************************************
     @Override
     @Transactional
     public Response getAllModelNames() {
@@ -311,6 +312,15 @@ public class RentCompany extends AbstractRentCompany {
         List<String> list = modelRepository.getAllNames().collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
     }
+
+    @Override
+    @Transactional
+    public Response getAllModels(){
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
+        List<ModelDto> list = modelRepository.findAllBy().map(this::getModelDto).collect(Collectors.toList());
+        return response.setMessage(OK).setContent(list);
+    }
+
 
     @Override
     @Transactional
@@ -343,6 +353,7 @@ public class RentCompany extends AbstractRentCompany {
                 .setDamages(record.getDamages());
     }
 
+    // *****************************************************************************************************************
     @Override
     public Response getMostPopularModelNames() {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
