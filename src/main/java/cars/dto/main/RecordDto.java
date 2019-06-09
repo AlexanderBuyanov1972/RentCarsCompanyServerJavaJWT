@@ -8,7 +8,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode
 public class RecordDto {
     private long licenseId;
-    private String carNumber;
+    private String regNumber;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate rentDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -28,8 +28,8 @@ public class RecordDto {
     public LocalDate getReturnDate() {
         return returnDate;
     }
-    public String getCarNumber() {
-        return carNumber;
+    public String getRegNumber() {
+        return regNumber;
     }
     public LocalDate getRentDate() {
         return rentDate;
@@ -52,8 +52,8 @@ public class RecordDto {
         this.licenseId = licenseId;
         return this;
     }
-    public RecordDto setCarNumber(String carNumber) {
-        this.carNumber = carNumber;
+    public RecordDto setRegNumber(String regNumber) {
+        this.regNumber = regNumber;
         return this;
     }
     public RecordDto setRentDate(LocalDate rentDate) {

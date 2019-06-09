@@ -1,5 +1,6 @@
 package cars.controller;
 
+import cars.dto.main.RecordDto;
 import cars.dto.main.*;
 import cars.service.main.IRentCompany;
 import io.swagger.annotations.Api;
@@ -230,7 +231,7 @@ public class CarsController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @GetMapping(value = CarsApiConstants.MOST_POPULAR_MODELS)
     Response getMostPopularModels() {
-        return company.getMostPopularModelNames();
+        return company.getMostPopularModels();
     }
 
     // -----------------getMostProfitModels-----------------------------------------------------------------------------
@@ -242,7 +243,7 @@ public class CarsController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @GetMapping(value = CarsApiConstants.MOST_PROFIT_MODELS)
     Response getMostProfitModels() {
-        return company.getMostProfitModelNames();
+        return company.getMostProfitModels();
     }
 
     // -----------------getModelProfit----------------------------------------------------------------------------------

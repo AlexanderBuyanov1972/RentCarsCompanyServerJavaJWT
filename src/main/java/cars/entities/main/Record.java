@@ -17,17 +17,17 @@ public class Record {
     @ApiModelProperty(notes = "The record's driver", required = true)
     private Driver driver;
     @ManyToOne
-    @ApiModelProperty(notes = "The record's car", required = true)
+    @ApiModelProperty(notes = "The record's car")
     private Car car;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    @ApiModelProperty(notes = "The record's rent date", required = true)
+    @ApiModelProperty(notes = "The record's rent date")
     private LocalDate rentDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
     @ApiModelProperty(notes = "The record's return date")
     private LocalDate returnDate;
     @ApiModelProperty(notes = "The record's gas tank percent")
     private int gasTankPercent;
-    @ApiModelProperty(notes = "The record's rent days", required = true)
+    @ApiModelProperty(notes = "The record's rent days")
     private int rentDays;
     @ApiModelProperty(notes = "The record's cost")
     private float cost;

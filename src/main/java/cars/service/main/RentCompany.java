@@ -133,11 +133,6 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK).setContent(getCarDto(car));
     }
 
-    private CarDto getCarDto(Car car) {
-        return new CarDto().setRegNumber(car.getRegNumber()).setColor(car.getColor())
-                .setModelName(car.getModel().getModelName());
-    }
-
     @Override
     public Response getDriver(long licenseId) {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
@@ -147,20 +142,17 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK).setContent(getDriverDto(driver));
     }
 
-    private DriverDto getDriverDto(Driver driver) {
-        return new DriverDto().setLicenseId(driver.getLicenseId()).setName(driver.getName())
-                .setBirthYear(driver.getBirthYear()).setPhone(driver.getPhone());
-    }
 
+    // **************************************************************************************************
     @Override
     @Transactional
     public Response rentCar(RecordDto recordDto) {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        String carNumber = recordDto.getCarNumber();
+        String regNumber = recordDto.getRegNumber();
         Long licenseId = recordDto.getLicenseId();
         LocalDate rentDate = recordDto.getRentDate();
         int rentDays = recordDto.getRentDays();
-        Car car = carRepository.findById(carNumber).orElse(null);
+        Car car = carRepository.findById(regNumber).orElse(null);
         if (car == null || car.isFlRemoved() == true)
             return response.setMessage(CAR_IS_NOT_EXISTS);
         if (car.isInUse() == true)
@@ -174,37 +166,36 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK);
     }
 
+    // ***************************************************************************************************
     @Override
     @Transactional
     public Response returnCar(RecordDto recordDto) {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        String carNumber = recordDto.getCarNumber();
+        String regNumber = recordDto.getRegNumber();
         LocalDate returnDate = recordDto.getReturnDate();
         int gasTankPercent = recordDto.getGasTankPercent();
         int damages = recordDto.getDamages();
-        Record record = getRentRecord(carNumber);
+        Record record = getRentRecord(regNumber);
         if (record == null)
             return response.setMessage(CAR_NOT_RENTED);
         if (returnDate.isBefore(record.getRentDate()))
             return response.setMessage(RETURN_DATE_WRONG);
-
         record.setDamages(damages).setGasTankPercent(gasTankPercent).setReturnDate(returnDate);
-
-        Car car = carRepository.findById(carNumber).get();
+        Car car = carRepository.findById(regNumber).get();
         CarDto carDto = getCarDto(car);
         setCost(record, carDto);
-
         updateCarData(damages, car);
         recordRepository.save(record);
         return response.setMessage(OK);
     }
 
-    private Record getRentRecord(String carNumber) {
+    private Record getRentRecord(String regNumber) {
         return recordRepository.findAll().stream()
-                .filter(r -> r.getCar().getRegNumber().equals(carNumber) && r.getReturnDate() == null).findFirst()
+                .filter(r -> r.getCar().getRegNumber().equals(regNumber) && r.getReturnDate() == null).findFirst()
                 .orElse(null);
     }
 
+    // *****************************************************************************************************************
     private void updateCarData(int damages, Car car) {
         if (damages > 0 && damages < 10)
             car.setState(State.GOOD);
@@ -227,11 +218,6 @@ public class RentCompany extends AbstractRentCompany {
         costGas = getCostGas(record, modelDto);
         record.setCost(costPeriod + costGas);
 
-    }
-
-    private ModelDto getModelDto(Model model) {
-        return new ModelDto().setModelName(model.getModelName()).setGasTank(model.getGasTank())
-                .setCompany(model.getCompany()).setCountry(model.getCountry()).setPriceDay(model.getPriceDay());
     }
 
     private float getCostGas(Record record, ModelDto modelDto) {
@@ -315,7 +301,7 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     @Transactional
-    public Response getAllModels(){
+    public Response getAllModels() {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<ModelDto> list = modelRepository.findAllBy().map(this::getModelDto).collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
@@ -346,28 +332,28 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK).setContent(list);
     }
 
-    private RecordDto getRecordDto(Record record) {
-        return new RecordDto().setLicenseId(record.getDriver().getLicenseId()).setCarNumber(record.getCar().getRegNumber())
-                .setRentDate(record.getRentDate()).setReturnDate(record.getReturnDate())
-                .setGasTankPercent(record.getGasTankPercent()).setRentDays(record.getRentDays()).setCost(record.getCost())
-                .setDamages(record.getDamages());
-    }
-
     // *****************************************************************************************************************
     @Override
-    public Response getMostPopularModelNames() {
+    @Transactional
+    public Response getMostPopularModels() {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         long countMax = recordRepository.getCountMaxForMostPopular();
         List<String> list = recordRepository.getListMostPopular(countMax);
-        return response.setMessage(OK).setContent(list);
+        List<ModelDto> listModels = modelRepository.findAllBy()
+                .filter(x -> list.contains(x.getModelName())).map(this::getModelDto).collect(Collectors.toList());
+        return response.setMessage(OK).setContent(listModels);
+
     }
 
     @Override
-    public Response getMostProfitModelNames() {
+    @Transactional
+    public Response getMostProfitModels() {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Double profitMax = recordRepository.getMaxProfitFromModelNames();
         List<String> list = recordRepository.getListStringMostProfitModelNames(profitMax);
-        return response.setMessage(OK).setContent(list);
+        List<ModelDto> listModels = modelRepository.findAllBy()
+                .filter(x -> list.contains(x.getModelName())).map(this::getModelDto).collect(Collectors.toList());
+        return response.setMessage(OK).setContent(listModels);
     }
 
     @Override
@@ -375,6 +361,29 @@ public class RentCompany extends AbstractRentCompany {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Double value = recordRepository.getProfitFromModelName(modelName);
         return response.setMessage(OK).setContent(value);
+    }
+
+    //********************helping methods********************************
+    private ModelDto getModelDto(Model model) {
+        return new ModelDto().setModelName(model.getModelName()).setGasTank(model.getGasTank())
+                .setCompany(model.getCompany()).setCountry(model.getCountry()).setPriceDay(model.getPriceDay());
+    }
+
+    private CarDto getCarDto(Car car) {
+        return new CarDto().setRegNumber(car.getRegNumber()).setColor(car.getColor())
+                .setModelName(car.getModel().getModelName());
+    }
+
+    private DriverDto getDriverDto(Driver driver) {
+        return new DriverDto().setLicenseId(driver.getLicenseId()).setName(driver.getName())
+                .setBirthYear(driver.getBirthYear()).setPhone(driver.getPhone());
+    }
+
+    private RecordDto getRecordDto(Record record) {
+        return new RecordDto().setLicenseId(record.getDriver().getLicenseId()).setRegNumber(record.getCar().getRegNumber())
+                .setRentDate(record.getRentDate()).setReturnDate(record.getReturnDate())
+                .setGasTankPercent(record.getGasTankPercent()).setRentDays(record.getRentDays()).setCost(record.getCost())
+                .setDamages(record.getDamages());
     }
 
 }

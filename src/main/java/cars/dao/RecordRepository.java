@@ -1,6 +1,7 @@
 package cars.dao;
 
 import cars.entities.main.Car;
+import cars.entities.main.Model;
 import cars.entities.main.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -31,6 +32,10 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 			+ " having count(*)=:countMax", nativeQuery = false)
 	List<String> getListMostPopular(@Param(value = "countMax") long countMax);
 
+//	@Query(value = "select car.model from Record group by car.model"
+//			+ " having count(*) =:countMax", nativeQuery = false)
+//	List<Model> getListMostPopular(@Param(value = "countMax") long countMax);
+
 	// ---------------ProfitFromModelNames-----------------------
 //	@Query(value="select sum(cost) from Record group by car.model.modelName"
 //			+ " having car.model.modelName = :modelName", nativeQuery = false)
@@ -46,6 +51,10 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
 	@Query(value = "select model_model_name from records join cars on reg_number = car_reg_number"
 			+ " group by model_model_name having sum(cost)=:profitMax", nativeQuery = true)
 	List<String> getListStringMostProfitModelNames(@Param(value = "profitMax") Double profitMax);
+
+//@Query(value = "select model_model_name from records join cars on reg_number = car_reg_number"
+//		+ " group by model having sum(cost)=:profitMax", nativeQuery = true)
+//List<Model> getListStringMostProfitModelNames(@Param(value = "profitMax") Double profitMax);
 	// --------------My clear----------------------------------------------
 	@Query(value="select distinct a from Car a join Record b on a.regNumber=b.car.regNumber "
 			+ "where a.flRemoved = true and b.returnDate<:dateDelete",nativeQuery=false)

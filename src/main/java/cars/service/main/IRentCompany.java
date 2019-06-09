@@ -1,5 +1,6 @@
 package cars.service.main;
 
+import cars.dto.main.RecordDto;
 import cars.dto.main.*;
 
 public interface IRentCompany {
@@ -52,13 +53,13 @@ public interface IRentCompany {
     Response getAllModelNames();
     // *****************************************************************
 
-    Response getMostPopularModelNames(); // returns list of
+    Response getMostPopularModels(); // returns list of
     // the model names the cars of which have been rented most times
 
     Response getModelProfit(String modelName); // returns value of money received from
     // the renting cars of a given model name
 
-    Response getMostProfitModelNames(); // returns list of most
+    Response getMostProfitModels(); // returns list of most
     // proftable model names
 
 }

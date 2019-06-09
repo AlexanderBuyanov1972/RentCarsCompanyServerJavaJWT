@@ -9,18 +9,17 @@ import java.util.List;
 @Table(name = "cars")
 @Entity
 public class Car {
-
     @Id
-    @ApiModelProperty(notes = "The registration number as ID", required = true)
+    @ApiModelProperty(notes = "The registration number as ID")
     private String regNumber;
-    @ApiModelProperty(notes = "The car's color", required = true)
+    @ApiModelProperty(notes = "The car's color")
     private String color;
     @Enumerated(EnumType.STRING)
-    @ApiModelProperty(notes = "The car's state", required = true)
+    @ApiModelProperty(notes = "The car's state")
     private State state;
-    @ApiModelProperty(notes = "The car's use", required = true)
+    @ApiModelProperty(notes = "The car's use")
     private boolean inUse;
-    @ApiModelProperty(notes = "The car's remove", required = true)
+    @ApiModelProperty(notes = "The car's remove")
     private boolean flRemoved;
     @ApiModelProperty(notes = "The model")
     @ManyToOne
