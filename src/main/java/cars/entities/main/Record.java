@@ -1,6 +1,8 @@
 package cars.entities.main;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -8,19 +10,28 @@ import java.time.LocalDate;
 @Entity
 public class Record {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @ApiModelProperty(notes = "The record's id as ID")
     private int id;
     @ManyToOne
+    @ApiModelProperty(notes = "The record's driver", required = true)
     private Driver driver;
     @ManyToOne
+    @ApiModelProperty(notes = "The record's car", required = true)
     private Car car;
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(notes = "The record's rent date", required = true)
     private LocalDate rentDate;
     @JsonFormat(pattern = "yyyy-MM-dd")
+    @ApiModelProperty(notes = "The record's return date")
     private LocalDate returnDate;
+    @ApiModelProperty(notes = "The record's gas tank percent")
     private int gasTankPercent;
+    @ApiModelProperty(notes = "The record's rent days", required = true)
     private int rentDays;
+    @ApiModelProperty(notes = "The record's cost")
     private float cost;
+    @ApiModelProperty(notes = "The record's damages")
     private int damages;
     public Record() { }
 

@@ -1,20 +1,24 @@
 package cars.entities.main;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import io.swagger.annotations.ApiModelProperty;
+
+import javax.persistence.*;
 import java.util.List;
 
 @Table(name = "drivers")
 @Entity
 public class Driver {
 	@Id
+	@ApiModelProperty(notes = "The driver's license as ID")
 	private Long licenseId;
+	@ApiModelProperty(notes = "The driver's name", required = true)
 	private String name;
+	@ApiModelProperty(notes = "The driver's birth year", required = true)
 	private Integer birthYear;
+	@ApiModelProperty(notes = "The driver's phone", required = true)
 	private String phone;
 	@OneToMany(mappedBy = "driver")
+	@ApiModelProperty(notes = "The driver's list", required = true)
 	private List<Record> records;
 
 	public Driver() { }

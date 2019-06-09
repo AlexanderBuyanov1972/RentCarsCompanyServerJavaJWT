@@ -38,7 +38,7 @@ public class RentCompany extends AbstractRentCompany {
     private String DRIVER_IS_NOT_EXISTS = "driver is not exists";
     private int goodCode = 200;
     private String currentDate = LocalDateTime.now().toString();
-    private Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
+    private Response response = null;
 
     @ManagedAttribute
     public int getFine_percent() {
@@ -72,6 +72,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response addModel(ModelDto modelDto) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         String modelName = modelDto.getModelName();
         if (modelRepository.existsById(modelName)) {
             return response.setMessage(MODEL_IS_EXISTS);
@@ -85,6 +86,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response addCar(CarDto carDto) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         String regNumber = carDto.getRegNumber();
         if (carRepository.existsById(regNumber))
             return response.setMessage(CAR_IS_EXISTS);
@@ -103,9 +105,10 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response addDriver(DriverDto driverDto) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Long licenseId = driverDto.getLicenseId();
         if (driverRepository.existsById(licenseId))
-            return response.setMessage(DRIVER_EXISTS).setContent("");
+            return response.setMessage(DRIVER_EXISTS);
         Driver driver = new Driver().setLicenseId(licenseId).setName(driverDto.getName())
                 .setBirthYear(driverDto.getBirthYear()).setPhone(driverDto.getPhone());
         driverRepository.save(driver);
@@ -114,6 +117,7 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     public Response getModel(String modelName) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Model model = modelRepository.findById(modelName).orElse(null);
         if (model == null)
             return response.setMessage(MODEL_IS_NOT_EXISTS);
@@ -122,9 +126,10 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     public Response getCar(String carNumber) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Car car = carRepository.findById(carNumber).orElse(null);
         if (car == null)
-            return response.setMessage(CAR_IS_NOT_EXISTS).setContent("");
+            return response.setMessage(CAR_IS_NOT_EXISTS);
         return response.setMessage(OK).setContent(getCarDto(car));
     }
 
@@ -135,9 +140,10 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     public Response getDriver(long licenseId) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Driver driver = driverRepository.findById(licenseId).orElse(null);
         if (driver == null)
-            return response.setMessage(DRIVER_IS_NOT_EXISTS).setContent("");
+            return response.setMessage(DRIVER_IS_NOT_EXISTS);
         return response.setMessage(OK).setContent(getDriverDto(driver));
     }
 
@@ -149,6 +155,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response rentCar(RecordDto recordDto) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         String carNumber = recordDto.getCarNumber();
         Long licenseId = recordDto.getLicenseId();
         LocalDate rentDate = recordDto.getRentDate();
@@ -170,6 +177,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response returnCar(RecordDto recordDto) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         String carNumber = recordDto.getCarNumber();
         LocalDate returnDate = recordDto.getReturnDate();
         int gasTankPercent = recordDto.getGasTankPercent();
@@ -255,6 +263,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response removeCar(String carNumber) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Car car = carRepository.findById(carNumber).orElse(null);
         if (car == null)
             return response.setMessage(CAR_IS_NOT_EXISTS);
@@ -268,6 +277,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response clear(DateDays dd) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<Record> recordsForDelete = recordRepository.findByCarFlRemovedTrueOrReturnDateBefore(dd.date.minusDays(dd.days));
         recordsForDelete.forEach(recordRepository::delete);
         List<Car> carsForDelete = carRepository.findAll().stream().filter(x -> x.isFlRemoved() == true).collect(Collectors.toList());
@@ -279,6 +289,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response getCarDrivers(String carNumber) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<DriverDto> list = recordRepository.findAllByCarRegNumber(carNumber).stream().map(Record::getDriver)
                 .distinct().map(this::getDriverDto).collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
@@ -287,6 +298,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response getDriverCars(long licenseId) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<CarDto> list = recordRepository.findAllByDriverLicenseId(licenseId).stream().map(Record::getCar).distinct()
                 .map(this::getCarDto).collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
@@ -295,6 +307,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response getAllModelNames() {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<String> list = modelRepository.getAllNames().collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
     }
@@ -302,6 +315,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response getAllCars() {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<CarDto> list = carRepository.findAllBy().map(this::getCarDto).collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
     }
@@ -309,6 +323,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response getAllDrivers() {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<DriverDto> list = driverRepository.findAllBy().map(this::getDriverDto).collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
     }
@@ -316,6 +331,7 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response getAllRecords() {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         List<RecordDto> list = recordRepository.findAllBy().map(this::getRecordDto).collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
     }
@@ -329,6 +345,7 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     public Response getMostPopularModelNames() {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         long countMax = recordRepository.getCountMaxForMostPopular();
         List<String> list = recordRepository.getListMostPopular(countMax);
         return response.setMessage(OK).setContent(list);
@@ -336,6 +353,7 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     public Response getMostProfitModelNames() {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Double profitMax = recordRepository.getMaxProfitFromModelNames();
         List<String> list = recordRepository.getListStringMostProfitModelNames(profitMax);
         return response.setMessage(OK).setContent(list);
@@ -343,6 +361,7 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     public Response getModelProfit(String modelName) {
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         Double value = recordRepository.getProfitFromModelName(modelName);
         return response.setMessage(OK).setContent(value);
     }

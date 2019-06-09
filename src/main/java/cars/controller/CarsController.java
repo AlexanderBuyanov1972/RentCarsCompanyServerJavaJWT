@@ -1,173 +1,249 @@
 package cars.controller;
 
-import cars.dto.accounting.AccountDto;
 import cars.dto.main.*;
-import cars.service.accounting.IAccountsManagment;
 import cars.service.main.IRentCompany;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
+@RequestMapping()
+@Api(value = "onlinestore")
 public class CarsController {
-	@Autowired
-	IRentCompany company;
+    @Autowired
+    IRentCompany company;
 
-	@Autowired
-	IAccountsManagment accounts;
+    // -----------addModel----------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Adding a new model to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully added model"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @PostMapping(value = CarsApiConstants.ADD_MODEL)
+    Response addModel(@RequestBody ModelDto carModel) {
+        return company.addModel(carModel);
+    }
 
-	// ******************Accounting*********************************
-	// ------------------addAccount-------------------------------
-	@PostMapping(value = "/account")
-	Response addAccount(@RequestBody AccountDto accountDto) {
-		return accounts.addAccount(accountDto.getUsername(), accountDto.getPassword(), accountDto.getRoles());
-	}
+    // -----------addCar------------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Adding a new car to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully added car"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
 
-	// ------------------removeAccount------------------------------
-	@DeleteMapping(value = "/account/{username}")
-	Response removeAccount(@PathVariable(value = "username") String username) {
-		return accounts.removeAccount(username);
-	}
+    @PostMapping(value = CarsApiConstants.ADD_CAR)
+    Response addCar(@RequestBody CarDto carDto) {
+        return company.addCar(carDto);
+    }
 
-	// ------------------updatePassword------------------------------
-	@PutMapping(value = "/account")
-	Response updatePassword(@RequestBody AccountDto accountDto) {
-		return accounts.updatePassword(accountDto.getUsername(), accountDto.getPassword());
-	}
+    // -----------addDriver---------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Adding a new driver to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully added driver"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @PostMapping(value = CarsApiConstants.ADD_DRIVER)
+    Response addDriver(@RequestBody DriverDto driverDto) {
+        return company.addDriver(driverDto);
+    }
 
-	// -------------------addRole------------------------------------
-	@PostMapping(value = "/role")
-	Response addRole(@RequestBody AccountDto accountDto) {
-		return accounts.addRole(accountDto.getUsername(), accountDto.getRoles());
+    // -----------getModel----------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting a new model to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten model"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_MODEL + "/{modelName}")
+    Response getModel(@PathVariable(value = "modelName") String modelName) {
+        return company.getModel(modelName);
+    }
 
-	}
+    // -------------getCar----------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting a new car to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten car"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @RequestMapping(value = CarsApiConstants.GET_CAR + "/{carNumber}")
+    Response getCar(@PathVariable(value = "carNumber") String carNumber) {
+        return company.getCar(carNumber);
+    }
 
-	// -------------------removeRole---------------------------------
-	@DeleteMapping(value = "/role")
-	Response removeRole(@RequestBody AccountDto accountDto) {
-		return accounts.removeRole(accountDto.getUsername(), accountDto.getRoles());
+    // --------------getDriver------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting a new driver to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten driver"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @RequestMapping(value = CarsApiConstants.GET_DRIVER + "/{licenseId}")
+    Response getDriver(@PathVariable(value = "licenseId") long licenseId) {
+        return company.getDriver(licenseId);
+    }
 
-	}
+    // ---------------rentCar-------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Adding a new record to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully opened record"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @PostMapping(value = CarsApiConstants.RENT_CAR)
+    Response rentCar(@RequestBody RecordDto record) {
+        return company.rentCar(record);
+    }
 
-	// ************RentCompany*********************************
-	// -----------addModel------------------------------------
-//	@ApiOperation(value = "Adding a new quartes to DataBase", response = Response.class)
-//	@ApiResponses(value = {
-//	@ApiResponse(code = 200, message = "Successfully added quartes"),
-//	@ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-//	@ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-//	@ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-	@CrossOrigin
-	@PostMapping(value = CarsApiConstants.ADD_MODEL)
-	Response addModel(@RequestBody ModelDto carModel) {
-		return company.addModel(carModel);
-	}
+    // ---------------returnCar-----------------------------------------------------------------------------------------
+    @ApiOperation(value = "Finishing a open record to DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully finished record"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @PostMapping(value = CarsApiConstants.RETURN_CAR)
+    Response returnCar(@RequestBody RecordDto record) {
+        return company.returnCar(record);
+    }
 
-	// -----------addCar--------------------------------------
+    // ---------------removeCar-----------------------------------------------------------------------------------------
+    @ApiOperation(value = "Removing a car from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully removed car"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @DeleteMapping(value = CarsApiConstants.REMOVE_CAR + "/{carNumber}")
+    Response removeCar(@PathVariable(value = "carNumber") String carNumber) {
+        return company.removeCar(carNumber);
+    }
 
-	@PostMapping(value = CarsApiConstants.ADD_CAR)
-	Response addCar(@RequestBody CarDto carDto) {return company.addCar(carDto); }
-	// -----------addDriver-----------------------------------
+    // ---------------clearCar------------------------------------------------------------------------------------------
+    @ApiOperation(value = "Removing records and cars from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully removed records and cars"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @PostMapping(value = CarsApiConstants.CLEAR_CARS)
+    Response clearCars(@RequestBody DateDays dd) {
+        return company.clear(dd);
+    }
 
-	@PostMapping(value = CarsApiConstants.ADD_DRIVER)
-	Response addDriver(@RequestBody DriverDto driverDto) {
-		return company.addDriver(driverDto);
-	}
+    // ---------------getCarDrivers-------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting car drivers from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten car drivers"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_CAR_DRIVERS + "/{carNumber}")
+    Response getCarDrivers(@PathVariable(value = "carNumber") String carNumber) {
+        return company.getCarDrivers(carNumber);
+    }
 
-	// -----------getModel------------------------------------
-	@GetMapping(value = CarsApiConstants.GET_MODEL + "/{modelName}")
-	Response getModel(@PathVariable(value = "modelName") String modelName) {
-		return company.getModel(modelName);
-	}
+    // ----------------getDriverCars------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting a driver cars from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten driver cars"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_DRIVER_CARS + "/{licenseId}")
+    Response getDriverCars(@PathVariable(value = "licenseId") long licenseId) {
+        return company.getDriverCars(licenseId);
+    }
 
-	// -------------getCar-------------------------------------
-	@RequestMapping(value = CarsApiConstants.GET_CAR + "/{carNumber}")
-	Response getCar(@PathVariable(value = "carNumber") String carNumber) {
-		return company.getCar(carNumber);
-	}
+    // ----------------getAllModels-------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting all models from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten all models"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_ALL_MODELS)
+    Response getAllModels() {
+        return company.getAllModelNames();
+    }
 
-	// --------------getDriver---------------------------------
-	@RequestMapping(value = CarsApiConstants.GET_DRIVER + "/{licenseId}")
-	Response getDriver(@PathVariable(value = "licenseId") long licenseId) {
-		return company.getDriver(licenseId);
-	}
+    // ----------------getAllCars---------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting all cars from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten all cars"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_ALL_CARS)
+    Response getAllCars() {
+        return company.getAllCars();
+    }
 
-	// ---------------rentCar---------------------------------
-	@PostMapping(value = CarsApiConstants.RENT_CAR)
-	Response rentCar(@RequestBody RecordDto record) {
-		return company.rentCar(record);
-	}
+    // ----------------getAllDrivers------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting all drivers from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten all drivers"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_ALL_DRIVERS)
+    Response getAllDrivers() {
+        return company.getAllDrivers();
+    }
 
-	// ---------------returnCar-------------------------------
-	@PostMapping(value = CarsApiConstants.RETURN_CAR)
-	Response returnCar(@RequestBody RecordDto record) {
-		return company.returnCar(record);
-	}
+    // ----------------getAllRecords------------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting all records from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten all records"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_ALL_RECORDS)
+    Response getAllRecords() {
+        return company.getAllRecords();
+    }
 
-	// ---------------removeCar-------------------------------
-	@DeleteMapping(value = CarsApiConstants.REMOVE_CAR + "/{carNumber}")
-	Response removeCar(@PathVariable(value = "carNumber") String carNumber) {
-		return company.removeCar(carNumber);
-	}
+    // ----------------getMostPopularModels-----------------------------------------------------------------------------
+    @ApiOperation(value = "Getting most popular models from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten most popular models"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.MOST_POPULAR_MODELS)
+    Response getMostPopularModels() {
+        return company.getMostPopularModelNames();
+    }
 
-	// ---------------clearCar--------------------------------
-	@PostMapping(value = CarsApiConstants.CLEAR_CARS)
-	Response clearCars(@RequestBody DateDays dd) {
-		return company.clear(dd);
-	}
+    // -----------------getMostProfitModels-----------------------------------------------------------------------------
+    @ApiOperation(value = "Getting most profit models from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten most profit models"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.MOST_PROFIT_MODELS)
+    Response getMostProfitModels() {
+        return company.getMostProfitModelNames();
+    }
 
-	// ---------------getCarDrivers---------------------------
-	@GetMapping(value = CarsApiConstants.GET_CAR_DRIVERS + "/{carNumber}")
-	Response getCarDrivers(@PathVariable(value = "carNumber") String carNumber) {
-		return company.getCarDrivers(carNumber);
-	}
-
-	// ----------------getDriverCars--------------------------
-	@GetMapping(value = CarsApiConstants.GET_DRIVER_CARS + "/{licenseId}")
-	Response getDriverCars(@PathVariable(value = "licenseId") long licenseId) {
-		return company.getDriverCars(licenseId);
-	}
-
-	// ----------------getAllModels---------------------------
-	@GetMapping(value = CarsApiConstants.GET_ALL_MODELS)
-	Response getAllModels() {
-		return company.getAllModelNames();
-	}
-
-	// ----------------getAllCars-----------------------------
-	@GetMapping(value = CarsApiConstants.GET_ALL_CARS)
-	Response getAllCars() {
-		return company.getAllCars();
-	}
-
-	// ----------------getAllDrivers--------------------------
-	@GetMapping(value = CarsApiConstants.GET_ALL_DRIVERS)
-	Response getAllDrivers() {
-		return company.getAllDrivers();
-	}
-
-	// ----------------getAllRecords--------------------------
-	@GetMapping(value = CarsApiConstants.GET_ALL_RECORDS)
-	Response getAllRecords() {
-		return company.getAllRecords();
-	}
-
-	// ----------------getMostPopularModels-------------------
-	@GetMapping(value = CarsApiConstants.MOST_POPULAR_MODELS)
-	Response getMostPopularModels() {
-		return company.getMostPopularModelNames();
-	}
-
-	// -----------------getMostProfitModels------------------
-	@GetMapping(value = CarsApiConstants.MOST_PROFIT_MODELS)
-	Response getMostProfitModels() {
-		return company.getMostProfitModelNames();
-	}
-
-	// -----------------getModelProfit---------------------------
-	@GetMapping(value = CarsApiConstants.GET_PROFIT_MODEL + "/{modelName}")
-	Response getModelProfit(@PathVariable(value = "modelName") String modelName) {
-		return company.getModelProfit(modelName);
-	}
-	// -----------------------------------------------------------
+    // -----------------getModelProfit----------------------------------------------------------------------------------
+    @ApiOperation(value = "Getting profit of  model from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully gotten profit of model"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @GetMapping(value = CarsApiConstants.GET_PROFIT_MODEL + "/{modelName}")
+    Response getModelProfit(@PathVariable(value = "modelName") String modelName) {
+        return company.getModelProfit(modelName);
+    }
+    // -----------------------------------------------------------------------------------------------------------------
 }

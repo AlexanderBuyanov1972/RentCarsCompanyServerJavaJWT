@@ -1,6 +1,8 @@
 package cars.entities.main;
 
 import cars.dto.main.State;
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -9,14 +11,21 @@ import java.util.List;
 public class Car {
 
     @Id
+    @ApiModelProperty(notes = "The registration number as ID", required = true)
     private String regNumber;
+    @ApiModelProperty(notes = "The car's color", required = true)
     private String color;
     @Enumerated(EnumType.STRING)
+    @ApiModelProperty(notes = "The car's state", required = true)
     private State state;
+    @ApiModelProperty(notes = "The car's use", required = true)
     private boolean inUse;
+    @ApiModelProperty(notes = "The car's remove", required = true)
     private boolean flRemoved;
+    @ApiModelProperty(notes = "The model")
     @ManyToOne
     private Model model;
+    @ApiModelProperty(notes = "The records's list")
     @OneToMany(mappedBy = "car", cascade = CascadeType.REMOVE) // physical removing car will cause removing
 //all related records
     private List<Record> records;
