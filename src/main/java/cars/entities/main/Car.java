@@ -97,4 +97,8 @@ public class Car {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "regustration numder -----------> "+this.regNumber + "is flag removed? ------------->" + this.flRemoved;
+    }
 }

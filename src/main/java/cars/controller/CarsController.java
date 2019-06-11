@@ -1,6 +1,5 @@
 package cars.controller;
 
-import cars.dto.main.RecordDto;
 import cars.dto.main.*;
 import cars.service.main.IRentCompany;
 import io.swagger.annotations.Api;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 @RestController
 @RequestMapping()
-@Api(value = "onlinestore")
+@Api(value = "onlineStore")
 public class CarsController {
     @Autowired
     IRentCompany company;
@@ -134,9 +133,10 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @PostMapping(value = CarsApiConstants.CLEAR_CARS)
-    Response clearCars(@RequestBody DateDays dd) {
-        return company.clear(dd);
+    @GetMapping(value = CarsApiConstants.CLEAR_CARS + "/{date}" + "/{days}")
+    Response clearCars(@PathVariable(value = "date") String date,
+                       @PathVariable(value = "days") int days) {
+        return company.clear(date, days);
     }
 
     // ---------------getCarDrivers-------------------------------------------------------------------------------------

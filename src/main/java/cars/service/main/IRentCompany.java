@@ -1,6 +1,5 @@
 package cars.service.main;
 
-import cars.dto.main.RecordDto;
 import cars.dto.main.*;
 
 public interface IRentCompany {
@@ -28,7 +27,7 @@ public interface IRentCompany {
     Response removeCar(String carNumber);// (OK,CAR_IN_USE,CAR_NOT_EXISTS)
     // removing car is setting flRemoved in true
 
-    Response clear(DateDays dd);
+    Response clear(String date, int days);
 
     // all cars for which the returnDate before currentDate - days with
     // flRemoved=true

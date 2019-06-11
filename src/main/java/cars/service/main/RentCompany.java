@@ -68,7 +68,7 @@ public class RentCompany extends AbstractRentCompany {
     ModelRepository modelRepository;
     @Autowired
     RecordRepository recordRepository;
-
+// *****************
     @Override
     @Transactional
     public Response addModel(ModelDto modelDto) {
@@ -246,6 +246,7 @@ public class RentCompany extends AbstractRentCompany {
         return (pricePerDay + fineCostPerDay) * delta;
     }
 
+    //************************* removeCar, clear ***********************************************************************
     @Override
     @Transactional
     public Response removeCar(String carNumber) {
@@ -255,23 +256,26 @@ public class RentCompany extends AbstractRentCompany {
             return response.setMessage(CAR_IS_NOT_EXISTS);
         if (car.isInUse())
             return response.setMessage(CAR_IN_USE);
-        car.setFlRemoved(true);
-        carRepository.save(car);
+        carRepository.save(car.setFlRemoved(true));
         return response.setMessage(OK);
     }
 
     @Override
     @Transactional
-    public Response clear(DateDays dd) {
+    public Response clear(String date, int days) {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        List<Record> recordsForDelete = recordRepository.findByCarFlRemovedTrueOrReturnDateBefore(dd.date.minusDays(dd.days));
+        LocalDate ld = LocalDate.parse(date);
+        List<Record> recordsForDelete = recordRepository.findByCarFlRemovedTrueOrReturnDateBefore(ld.minusDays(days));
         recordsForDelete.forEach(recordRepository::delete);
-        List<Car> carsForDelete = carRepository.findAll().stream().filter(x -> x.isFlRemoved() == true).collect(Collectors.toList());
+
+        List<Car> carsForDelete = carRepository.findAll().stream().filter(x -> x.isFlRemoved()).collect(Collectors.toList());
         carsForDelete.forEach(carRepository::delete);
+
         List<CarDto> list = carsForDelete.stream().map(this::getCarDto).collect(Collectors.toList());
         return response.setMessage(OK).setContent(list);
     }
 
+    // ********************* getCarDrivers, getDriverCars **************************************************************
     @Override
     @Transactional
     public Response getCarDrivers(String carNumber) {
@@ -290,7 +294,7 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK).setContent(list);
     }
 
-    // *****************************************************************************************************************
+    // ************* getAllModelNames, getAllModels, getAllCars, getAllDrivers, getAllRecords **************************
     @Override
     @Transactional
     public Response getAllModelNames() {
@@ -332,7 +336,7 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK).setContent(list);
     }
 
-    // *****************************************************************************************************************
+    // ********************* getMostPopularModels, getMostProfitModels, getModelProfit *********************************
     @Override
     @Transactional
     public Response getMostPopularModels() {
@@ -363,26 +367,43 @@ public class RentCompany extends AbstractRentCompany {
         return response.setMessage(OK).setContent(value);
     }
 
-    //********************helping methods********************************
+    //******************************************helping methods*********************************************************
     private ModelDto getModelDto(Model model) {
-        return new ModelDto().setModelName(model.getModelName()).setGasTank(model.getGasTank())
-                .setCompany(model.getCompany()).setCountry(model.getCountry()).setPriceDay(model.getPriceDay());
+        return new ModelDto()
+                .setModelName(model.getModelName())
+                .setGasTank(model.getGasTank())
+                .setCompany(model.getCompany())
+                .setCountry(model.getCountry())
+                .setPriceDay(model.getPriceDay());
     }
 
     private CarDto getCarDto(Car car) {
-        return new CarDto().setRegNumber(car.getRegNumber()).setColor(car.getColor())
-                .setModelName(car.getModel().getModelName());
+        return new CarDto()
+                .setRegNumber(car.getRegNumber())
+                .setColor(car.getColor())
+                .setModelName(car.getModel().getModelName())
+                .setFlRemoved(car.isFlRemoved())
+                .setState(car.getState())
+                .setInUse(car.isInUse());
     }
 
     private DriverDto getDriverDto(Driver driver) {
-        return new DriverDto().setLicenseId(driver.getLicenseId()).setName(driver.getName())
-                .setBirthYear(driver.getBirthYear()).setPhone(driver.getPhone());
+        return new DriverDto()
+                .setLicenseId(driver.getLicenseId())
+                .setName(driver.getName())
+                .setBirthYear(driver.getBirthYear())
+                .setPhone(driver.getPhone());
     }
 
     private RecordDto getRecordDto(Record record) {
-        return new RecordDto().setLicenseId(record.getDriver().getLicenseId()).setRegNumber(record.getCar().getRegNumber())
-                .setRentDate(record.getRentDate()).setReturnDate(record.getReturnDate())
-                .setGasTankPercent(record.getGasTankPercent()).setRentDays(record.getRentDays()).setCost(record.getCost())
+        return new RecordDto()
+                .setLicenseId(record.getDriver().getLicenseId())
+                .setRegNumber(record.getCar().getRegNumber())
+                .setRentDate(record.getRentDate())
+                .setReturnDate(record.getReturnDate())
+                .setGasTankPercent(record.getGasTankPercent())
+                .setRentDays(record.getRentDays())
+                .setCost(record.getCost())
                 .setDamages(record.getDamages());
     }
 
