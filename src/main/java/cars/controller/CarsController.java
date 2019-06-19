@@ -1,6 +1,6 @@
 package cars.controller;
 
-import cars.dto.main.*;
+import cars.dto.*;
 import cars.service.main.IRentCompany;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

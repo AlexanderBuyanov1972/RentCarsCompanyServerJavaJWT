@@ -1,4 +1,4 @@
-package cars.dto.accounting;
+package cars.dto;
 
 import java.util.Arrays;
 

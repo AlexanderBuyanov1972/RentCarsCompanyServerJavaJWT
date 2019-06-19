@@ -1,4 +1,4 @@
-package cars.dto.main;
+package cars.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;

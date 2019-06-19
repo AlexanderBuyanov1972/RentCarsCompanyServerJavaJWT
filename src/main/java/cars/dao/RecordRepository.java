@@ -1,8 +1,7 @@
 package cars.dao;
 
-import cars.entities.main.Car;
-import cars.entities.main.Model;
-import cars.entities.main.Record;
+import cars.entities.Car;
+import cars.entities.Record;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

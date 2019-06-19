@@ -1,8 +1,7 @@
-package cars.service.entry;
-
+package cars.service.accounting;
 
 import cars.dao.AuthRepository;
-import cars.entities.accounting.AccountMongo;
+import cars.entities.AccountMongo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.annotation.ManagedAttribute;

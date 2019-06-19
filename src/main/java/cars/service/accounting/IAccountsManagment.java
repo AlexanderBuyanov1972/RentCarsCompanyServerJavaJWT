@@ -1,6 +1,6 @@
 package cars.service.accounting;
 
-import cars.dto.main.Response;
+import cars.dto.Response;
 
 public interface IAccountsManagment {
 

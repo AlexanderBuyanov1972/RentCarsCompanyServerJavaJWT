@@ -1,6 +1,6 @@
 package cars.dao;
 
-import cars.entities.main.Car;
+import cars.entities.Car;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.stream.Stream;

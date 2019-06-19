@@ -1,8 +1,11 @@
 package cars.service.main;
 
 import cars.dao.*;
-import cars.dto.main.*;
-import cars.entities.main.*;
+import cars.dto.*;
+import cars.entities.Car;
+import cars.entities.Driver;
+import cars.entities.Model;
+import cars.entities.Record;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

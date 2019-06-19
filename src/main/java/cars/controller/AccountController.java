@@ -1,8 +1,8 @@
 package cars.controller;
 
 
-import cars.dto.accounting.AccountDto;
-import cars.dto.main.Response;
+import cars.dto.AccountDto;
+import cars.dto.Response;
 import cars.service.accounting.IAccountsManagment;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

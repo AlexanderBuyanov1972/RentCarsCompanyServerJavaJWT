@@ -1,4 +1,4 @@
-package cars.dto.main;
+package cars.dto;
 
 public enum State {
 BAD,GOOD,EXCELLENT

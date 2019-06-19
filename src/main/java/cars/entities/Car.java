@@ -1,6 +1,6 @@
-package cars.entities.main;
+package cars.entities;
 
-import cars.dto.main.State;
+import cars.dto.State;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;

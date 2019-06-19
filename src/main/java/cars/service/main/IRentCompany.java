@@ -1,6 +1,6 @@
 package cars.service.main;
 
-import cars.dto.main.*;
+import cars.dto.*;
 
 public interface IRentCompany {
     // *********************************************************

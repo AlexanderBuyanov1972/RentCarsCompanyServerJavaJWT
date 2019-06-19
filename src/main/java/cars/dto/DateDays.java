@@ -1,4 +1,4 @@
-package cars.dto.main;
+package cars.dto;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package cars.dto.main;
+package cars.dto;
 
 public enum CarsReturnCode {
 	OK, MODEL_EXISTS, NO_CAR, CAR_IN_USE,
