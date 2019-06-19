@@ -1,18 +1,18 @@
 package cars.entities.accounting;
 
-import java.time.LocalDate;
-import java.util.Set;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.time.LocalDate;
+import java.util.Set;
 
 @Document(collection = "users")
 public class AccountMongo {
 	@Id
-	String username;
-	String password;
-	LocalDate date;
-	Set<String> roles;
+	private String username;
+	private String password;
+	private LocalDate date;
+	private Set<String> roles;
 
 	public AccountMongo(String username, String password, Set<String> setRoles) {
 		super();
@@ -21,16 +21,19 @@ public class AccountMongo {
 		this.roles = setRoles;
 	}
 
-	public void setPassword(String password) {
+	public AccountMongo setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
-	public void setDate(LocalDate date) {
+	public AccountMongo setDate(LocalDate date) {
 		this.date = date;
+		return this;
 	}
 
-	public void setRoles(Set<String> setRoles) {
+	public AccountMongo setRoles(Set<String> setRoles) {
 		this.roles = setRoles;
+		return this;
 	}
 
 	public String getUsername() {

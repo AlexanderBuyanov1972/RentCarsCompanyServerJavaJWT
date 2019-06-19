@@ -3,9 +3,9 @@ package cars.dto.accounting;
 import java.util.Arrays;
 
 public class AccountDto {
-	String username;
-	String password;
-	String[] roles;
+	private String username;
+	private String password;
+	private String[] roles;
 	
 	public AccountDto() {
 		super();
@@ -16,7 +16,6 @@ public class AccountDto {
 		this.password = password;
 		this.roles = roles;
 	}
-
 
 	public String getUsername() {
 		return username;
@@ -30,16 +29,19 @@ public class AccountDto {
 		return roles;
 	}
 
-	public void setUsername(String username) {
+	public AccountDto setUsername(String username) {
 		this.username = username;
+		return this;
 	}
 
-	public void setPassword(String password) {
+	public AccountDto setPassword(String password) {
 		this.password = password;
+		return this;
 	}
 
-	public void setRoles(String[] roles) {
+	public AccountDto setRoles(String[] roles) {
 		this.roles = roles;
+		return this;
 	}
 
 	@Override
