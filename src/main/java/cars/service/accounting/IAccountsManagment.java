@@ -4,14 +4,14 @@ import cars.dto.Response;
 
 public interface IAccountsManagment {
 
-    Response addAccount(String username, String password, String[] roles);
+    Response addAccount(String email, String password, String[] roles);
 
-    Response removeAccount(String username);
+    Response removeAccount(String email);
 
-    Response updatePassword(String username, String password);
+    Response updatePassword(String email, String password);
 
-    Response addRole(String username, String[] roles);
+    Response addRoles(String email, String[] roles);
 
-    Response removeRole(String username, String[] roles);
+    Response removeRoles(String email, String[] roles);
 
 }

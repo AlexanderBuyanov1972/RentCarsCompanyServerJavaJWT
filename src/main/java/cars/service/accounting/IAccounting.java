@@ -2,7 +2,7 @@ package cars.service.accounting;
 
 public interface IAccounting {
 
-	String getPassword(String username);
+	String getPassword(String email);
 
-	String[] getRoles(String username);
+	String[] getRoles(String email);
 }

@@ -52,11 +52,9 @@ public interface IRentCompany {
     Response getAllModelNames();
     // *****************************************************************
 
-    Response getMostPopularModels(); // returns list of
-    // the model names the cars of which have been rented most times
+    Response getMostPopularModels();
 
-    Response getModelProfit(String modelName); // returns value of money received from
-    // the renting cars of a given model name
+    Response getModelProfit(String modelName);
 
     Response getMostProfitModels(); // returns list of most
     // proftable model names

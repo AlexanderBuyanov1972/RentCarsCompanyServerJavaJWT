@@ -27,7 +27,7 @@ public class AccountController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @PostMapping(value = "/account")
     Response addAccount(@RequestBody AccountDto accountDto) {
-        return accounts.addAccount(accountDto.getUsername(), accountDto.getPassword(), accountDto.getRoles());
+        return accounts.addAccount(accountDto.getEmail(), accountDto.getPassword(), accountDto.getRoles());
     }
 
     // ------------------removeAccount----------------------------------------------------------------------------------
@@ -37,9 +37,12 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @DeleteMapping(value = "/account/{username}")
-    Response removeAccount(@PathVariable(value = "username") String username) {
-        return accounts.removeAccount(username);
+    @DeleteMapping(value = "/account")
+//    Response removeAccount(@PathVariable(value = "email") String email) {
+//        return accounts.removeAccount(email);
+//    }
+    Response removeAccount(@RequestBody AccountDto accountDto) {
+        return accounts.removeAccount(accountDto.getEmail());
     }
 
     // ------------------updatePassword---------------------------------------------------------------------------------
@@ -51,7 +54,7 @@ public class AccountController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @PutMapping(value = "/account")
     Response updatePassword(@RequestBody AccountDto accountDto) {
-        return accounts.updatePassword(accountDto.getUsername(), accountDto.getPassword());
+        return accounts.updatePassword(accountDto.getEmail(), accountDto.getPassword());
     }
 
     // -------------------addRole---------------------------------------------------------------------------------------
@@ -61,9 +64,9 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @PostMapping(value = "/role")
-    Response addRole(@RequestBody AccountDto accountDto) {
-        return accounts.addRole(accountDto.getUsername(), accountDto.getRoles());
+    @PostMapping(value = "/roles")
+    Response addRoles(@RequestBody AccountDto accountDto) {
+        return accounts.addRoles(accountDto.getEmail(), accountDto.getRoles());
 
     }
 
@@ -74,9 +77,9 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @DeleteMapping(value = "/role")
-    Response removeRole(@RequestBody AccountDto accountDto) {
-        return accounts.removeRole(accountDto.getUsername(), accountDto.getRoles());
+    @DeleteMapping(value = "/roles")
+    Response removeRoles(@RequestBody AccountDto accountDto) {
+        return accounts.removeRoles(accountDto.getEmail(), accountDto.getRoles());
 
     }
     // -----------------------------------------------------------------------------------------------------------------

@@ -29,8 +29,8 @@ public class CarsAccounts implements IAccounting {
 	AuthRepository repository;
 	
 	@Override
-	public String getPassword(String username) {
-		AccountMongo account = repository.findById(username).orElse(null);
+	public String getPassword(String email) {
+		AccountMongo account = repository.findById(email).orElse(null);
 		if(account==null)
 			return "";
 		LocalDate expDate = account.getDate().plusDays(experationPeriod);
@@ -40,8 +40,8 @@ public class CarsAccounts implements IAccounting {
 	}
 
 	@Override
-	public String[] getRoles(String username) {
-		AccountMongo account = repository.findById(username).orElse(null);
+	public String[] getRoles(String email) {
+		AccountMongo account = repository.findById(email).orElse(null);
 		if(account==null)
 			return new String[0];
 		return account.getRoles().toArray(new String[0]);

@@ -9,14 +9,14 @@ import java.util.Set;
 @Document(collection = "users")
 public class AccountMongo {
 	@Id
-	private String username;
+	private String email;
 	private String password;
 	private LocalDate date;
 	private Set<String> roles;
 
-	public AccountMongo(String username, String password, Set<String> setRoles) {
+	public AccountMongo(String email, String password, Set<String> setRoles) {
 		super();
-		this.username = username;
+		this.email = email;
 		this.password = password;
 		this.roles = setRoles;
 	}
@@ -37,7 +37,7 @@ public class AccountMongo {
 	}
 
 	public String getUsername() {
-		return username;
+		return email;
 	}
 
 	public String getPassword() {
@@ -58,7 +58,7 @@ public class AccountMongo {
 
 	@Override
 	public String toString() {
-		return "AccountMongo [username=" + username + ", password=" + password + ", date=" + date + ", roles=" + roles
+		return "AccountMongo [email=" + email + ", password=" + password + ", date=" + date + ", roles=" + roles
 				+ "]";
 	}
 	

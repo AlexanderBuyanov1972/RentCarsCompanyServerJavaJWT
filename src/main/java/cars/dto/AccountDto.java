@@ -3,7 +3,7 @@ package cars.dto;
 import java.util.Arrays;
 
 public class AccountDto {
-	private String username;
+	private String email;
 	private String password;
 	private String[] roles;
 	
@@ -12,13 +12,13 @@ public class AccountDto {
 	}
 	
 	public AccountDto(String username, String password, String[] roles) {
-		this.username = username;
+		this.email = username;
 		this.password = password;
 		this.roles = roles;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getEmail() {
+		return email;
 	}
 
 	public String getPassword() {
@@ -29,8 +29,8 @@ public class AccountDto {
 		return roles;
 	}
 
-	public AccountDto setUsername(String username) {
-		this.username = username;
+	public AccountDto setEmail(String email) {
+		this.email = email;
 		return this;
 	}
 
@@ -46,7 +46,7 @@ public class AccountDto {
 
 	@Override
 	public String toString() {
-		return "AccountDto [username=" + username + ", password=" + password + ", roles=" + Arrays.toString(roles)
+		return "AccountDto [email=" + email + ", password=" + password + ", roles=" + Arrays.toString(roles)
 				+ "]";
 	}
 

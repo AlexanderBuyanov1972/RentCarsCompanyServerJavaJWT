@@ -15,8 +15,8 @@ public class CarAuthentication implements UserDetailsService {
 	IAccounting iAccounting;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		String password = iAccounting.getPassword(username);
-		return new User(username, password, AuthorityUtils.createAuthorityList(iAccounting.getRoles(username)));
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		String password = iAccounting.getPassword(email);
+		return new User(email, password, AuthorityUtils.createAuthorityList(iAccounting.getRoles(email)));
 	}
 }
