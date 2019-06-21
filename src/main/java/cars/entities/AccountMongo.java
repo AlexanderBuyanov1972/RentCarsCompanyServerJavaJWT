@@ -4,21 +4,20 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.util.Set;
 
 @Document(collection = "users")
 public class AccountMongo {
 	@Id
-	private String email;
+	private String username;
 	private String password;
 	private LocalDate date;
-	private Set<String> roles;
+	private String[] roles;
 
-	public AccountMongo(String email, String password, Set<String> setRoles) {
+	public AccountMongo(String email, String password, String[] roles) {
 		super();
-		this.email = email;
+		this.username = email;
 		this.password = password;
-		this.roles = setRoles;
+		this.roles = roles;
 	}
 
 	public AccountMongo setPassword(String password) {
@@ -31,13 +30,13 @@ public class AccountMongo {
 		return this;
 	}
 
-	public AccountMongo setRoles(Set<String> setRoles) {
-		this.roles = setRoles;
+	public AccountMongo setRoles(String[] roles) {
+		this.roles = roles;
 		return this;
 	}
 
 	public String getUsername() {
-		return email;
+		return username;
 	}
 
 	public String getPassword() {
@@ -48,7 +47,7 @@ public class AccountMongo {
 		return date;
 	}
 
-	public Set<String> getRoles() {
+	public String[] getRoles() {
 		return roles;
 	}
 
@@ -58,7 +57,7 @@ public class AccountMongo {
 
 	@Override
 	public String toString() {
-		return "AccountMongo [email=" + email + ", password=" + password + ", date=" + date + ", roles=" + roles
+		return "AccountMongo [username=" + username + ", password=" + password + ", date=" + date + ", roles=" + roles
 				+ "]";
 	}
 	

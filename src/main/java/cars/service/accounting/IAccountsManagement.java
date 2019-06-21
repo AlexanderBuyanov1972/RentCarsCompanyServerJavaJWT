@@ -2,7 +2,7 @@ package cars.service.accounting;
 
 import cars.dto.Response;
 
-public interface IAccountsManagment {
+public interface IAccountsManagement {
 
     Response addAccount(String email, String password, String[] roles);
 

@@ -343,11 +343,16 @@ public class RentCompany extends AbstractRentCompany {
     @Override
     @Transactional
     public Response getMostPopularModels() {
+        System.out.println("============================1=================================");
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
+        System.out.println("============================2=================================");
         long countMax = recordRepository.getCountMaxForMostPopular();
+        System.out.println("============================3=================================");
         List<String> list = recordRepository.getListMostPopular(countMax);
+        System.out.println("============================4=================================");
         List<ModelDto> listModels = modelRepository.findAllBy()
                 .filter(x -> list.contains(x.getModelName())).map(this::getModelDto).collect(Collectors.toList());
+        System.out.println("============================5=================================");
         return response.setMessage(OK).setContent(listModels);
 
     }

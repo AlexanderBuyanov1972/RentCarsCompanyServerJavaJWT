@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class EncoderConfig {
 	@Bean
 	PasswordEncoder getPasswordEncoder() {
+		System.out.println("возвращаю кодированный пароль");
 		return new BCryptPasswordEncoder();
 	}
 

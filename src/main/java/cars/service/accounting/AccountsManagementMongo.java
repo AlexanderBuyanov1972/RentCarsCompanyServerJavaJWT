@@ -9,13 +9,14 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 
 @Service
-public class AccManagmentMongo implements IAccountsManagment {
+public class AccountsManagementMongo implements IAccountsManagement {
     private static final String OK = "OK";
     private static final String USER_ALREADY_EXISTS = "user already exists";
     private static final String USER_IS_NOT_EXISTS = "user is not exists";
@@ -34,9 +35,7 @@ public class AccManagmentMongo implements IAccountsManagment {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         if (repository.existsById(email))
             return response.setMessage(USER_ALREADY_EXISTS);
-        String encoderPassword = encoder.encode(password);
-        Set<String> setRoles = new HashSet<>(Arrays.asList(roles));
-        AccountMongo account = new AccountMongo(email, encoderPassword, setRoles);
+        AccountMongo account = new AccountMongo(email, encoder.encode(password), roles);
         account.setDate(LocalDate.now());
         repository.save(account);
         return response.setMessage(OK);
@@ -74,9 +73,10 @@ public class AccManagmentMongo implements IAccountsManagment {
         AccountMongo account = repository.findById(email).orElse(null);
         if (account == null)
             return response.setMessage(ACCOUNT_IS_NOT_EXISTS);
-        Set<String> setRolesAccount = account.getRoles();
-        setRolesAccount.addAll(new HashSet<>(Arrays.asList(roles)));
-        repository.save(account.setRoles(setRolesAccount));
+        String[] rolesDB = account.getRoles();
+        Set<String> setRolesDB = new HashSet<>(Arrays.asList(rolesDB));
+        setRolesDB.addAll(new HashSet<String>(Arrays.asList(roles)));
+        repository.save(account.setRoles(fromSetToArray(setRolesDB)));
         return response.setMessage(OK);
     }
 
@@ -86,10 +86,17 @@ public class AccManagmentMongo implements IAccountsManagment {
         AccountMongo account = repository.findById(email).orElse(null);
         if (account == null)
             return response.setMessage(ACCOUNT_IS_NOT_EXISTS);
-        Set<String> setRolesAccount = account.getRoles();
-        setRolesAccount.removeAll(new HashSet<>(Arrays.asList(roles)));
-        repository.save(account.setRoles(setRolesAccount));
+        String[] rolesDB = account.getRoles();
+        Set<String> setRolesDB = new HashSet<String>(Arrays.asList(rolesDB));
+        setRolesDB.removeAll(new HashSet<String>(Arrays.asList(roles)));
+        repository.save(account.setRoles(fromSetToArray(setRolesDB)));
         return response.setMessage(OK);
+    }
+
+    private String[] fromSetToArray(Set<String> setRolesDB) {
+        ArrayList<String> list = new ArrayList<>(setRolesDB);
+        String[] strs = new String[list.size()];
+        return list.toArray(strs);
     }
 
 }

@@ -1,6 +1,15 @@
 package cars.dto;
 
 public interface CarsApiConstants {
+	// ----------------------------------------
+	String SHUTDOWN = "/actuator/shutdown";//ADMIN
+	String ADD_ACCOUNT = "/account"; // ADMIN
+	String REMOVE_ACCOUNT = "/account"; // ADMIN
+	String UPDATE_PASSWORD = "/account"; //ADMIN
+	String ADD_ROLES = "/roles"; //ADMIN
+	String REMOVE_ROLES = "/roles"; //ADMIN
+
+
 	//---------------------------------
 	String ADD_CAR = "/car"; // MANAGER
 	String ADD_MODEL = "/model"; // MANAGER
@@ -29,6 +38,5 @@ public interface CarsApiConstants {
 	String MOST_PROFIT_MODELS = "/models/profit";// STATIST
 	String GET_PROFIT_MODEL = "/model/profit";// MANAGER,STATIST
 	//------------------------------------------
-	String SHUTDOWN = "/actuator/shutdown";//ADMIN
-//--------------------------------------------
+
 }

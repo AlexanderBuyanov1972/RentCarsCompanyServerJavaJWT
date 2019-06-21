@@ -2,8 +2,9 @@ package cars.controller;
 
 
 import cars.dto.AccountDto;
+import cars.dto.CarsApiConstants;
 import cars.dto.Response;
-import cars.service.accounting.IAccountsManagment;
+import cars.service.accounting.IAccountsManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @Api(value="onlinestore")
 public class AccountController {
     @Autowired
-    IAccountsManagment accounts;
+    IAccountsManagement accounts;
     // ------------------addAccount-------------------------------------------------------------------------------------
     @ApiOperation(value = "Adding a account to DataBase", response = Response.class)
     @ApiResponses(value = {
@@ -25,9 +26,9 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @PostMapping(value = "/account")
+    @PostMapping(value = CarsApiConstants.ADD_ACCOUNT)
     Response addAccount(@RequestBody AccountDto accountDto) {
-        return accounts.addAccount(accountDto.getEmail(), accountDto.getPassword(), accountDto.getRoles());
+        return accounts.addAccount(accountDto.getUsername(), accountDto.getPassword(), accountDto.getRoles());
     }
 
     // ------------------removeAccount----------------------------------------------------------------------------------
@@ -37,12 +38,12 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @DeleteMapping(value = "/account")
+    @DeleteMapping(value = CarsApiConstants.REMOVE_ACCOUNT)
 //    Response removeAccount(@PathVariable(value = "email") String email) {
 //        return accounts.removeAccount(email);
 //    }
     Response removeAccount(@RequestBody AccountDto accountDto) {
-        return accounts.removeAccount(accountDto.getEmail());
+        return accounts.removeAccount(accountDto.getUsername());
     }
 
     // ------------------updatePassword---------------------------------------------------------------------------------
@@ -52,9 +53,9 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @PutMapping(value = "/account")
+    @PutMapping(value = CarsApiConstants.UPDATE_PASSWORD)
     Response updatePassword(@RequestBody AccountDto accountDto) {
-        return accounts.updatePassword(accountDto.getEmail(), accountDto.getPassword());
+        return accounts.updatePassword(accountDto.getUsername(), accountDto.getPassword());
     }
 
     // -------------------addRole---------------------------------------------------------------------------------------
@@ -64,9 +65,9 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @PostMapping(value = "/roles")
+    @PostMapping(value = CarsApiConstants.ADD_ROLES)
     Response addRoles(@RequestBody AccountDto accountDto) {
-        return accounts.addRoles(accountDto.getEmail(), accountDto.getRoles());
+        return accounts.addRoles(accountDto.getUsername(), accountDto.getRoles());
 
     }
 
@@ -77,9 +78,9 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @DeleteMapping(value = "/roles")
+    @DeleteMapping(value = CarsApiConstants.REMOVE_ROLES)
     Response removeRoles(@RequestBody AccountDto accountDto) {
-        return accounts.removeRoles(accountDto.getEmail(), accountDto.getRoles());
+        return accounts.removeRoles(accountDto.getUsername(), accountDto.getRoles());
 
     }
     // -----------------------------------------------------------------------------------------------------------------
