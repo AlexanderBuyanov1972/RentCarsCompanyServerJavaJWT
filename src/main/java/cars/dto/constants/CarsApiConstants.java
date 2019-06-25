@@ -1,4 +1,4 @@
-package cars.dto;
+package cars.dto.constants;
 
 public interface CarsApiConstants {
 	// ----------------------------------------

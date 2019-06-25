@@ -2,7 +2,7 @@ package cars.controller;
 
 
 import cars.dto.AccountDto;
-import cars.dto.CarsApiConstants;
+import cars.dto.constants.CarsApiConstants;
 import cars.dto.Response;
 import cars.service.accounting.IAccountsManagement;
 import io.swagger.annotations.Api;
