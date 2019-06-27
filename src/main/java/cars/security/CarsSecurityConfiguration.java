@@ -1,4 +1,4 @@
-package cars.security.configuration;
+package cars.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +13,8 @@ public class CarsSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.httpBasic();
-        httpSecurity.csrf().disable();
+        httpSecurity.cors();
+        httpSecurity.csrf();
         httpSecurity.authorizeRequests().anyRequest().authenticated();
 
 //         httpSecurity.authorizeRequests().anyRequest().permitAll();

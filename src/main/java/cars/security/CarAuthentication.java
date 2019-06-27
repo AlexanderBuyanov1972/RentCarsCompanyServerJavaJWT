@@ -1,6 +1,6 @@
-package cars.security.configuration;
+package cars.security;
 
-import cars.service.accounting.IAccounting;
+import cars.security.accounting.IAccounting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;

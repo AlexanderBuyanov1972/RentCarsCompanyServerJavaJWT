@@ -12,53 +12,54 @@ import java.util.stream.Stream;
 
 public interface RecordRepository extends JpaRepository<Record, Integer> {
 
-	Stream<Record> findAllBy();
+    Stream<Record> findAllBy();
 
-//-------------------clear of Yuri------------------------------
-	List<Record> findByCarFlRemovedTrueAndReturnDateBefore(LocalDate dateDelete);
+    //-------------------clear of Yuri------------------------------
+    List<Record> findByCarFlRemovedTrueAndReturnDateBefore(LocalDate dateDelete);
 
-//------------------------------------------------------
-	List<Record> findAllByCarRegNumber(String carNumber);
+    //------------------------------------------------------
+    List<Record> findAllByCarRegNumber(String carNumber);
 
-	List<Record> findAllByDriverLicenseId(Long licenseId);
+    List<Record> findAllByDriverLicenseId(Long licenseId);
 
-	// --------------MostPopularModelsName------------------------
-	@Query(value = "select count(*) from records join cars on reg_number=car_reg_number "
-			+ "group by model_model_name order by count(*) limit 1", nativeQuery = true)
-	Long getCountMaxForMostPopular();
+    // --------------MostPopularModelsName------------------------
+    @Query(value = "select count(*) from records join cars on reg_number=car_reg_number "
+            + "group by model_model_name order by count(*) limit 1", nativeQuery = true)
+    Long getCountMaxForMostPopular();
 
-	@Query(value = "select car.model.modelName from Record group by car.model.modelName"
-			+ " having count(*)=:countMax", nativeQuery = false)
-	List<String> getListMostPopular(@Param(value = "countMax") long countMax);
+    @Query(value = "select car.model.modelName from Record group by car.model.modelName"
+            + " having count(*) = :countMax", nativeQuery = false)
+    List<String> getListMostPopular(@Param(value = "countMax") long countMax);
 
 //	@Query(value = "select car.model from Record group by car.model"
 //			+ " having count(*) =:countMax", nativeQuery = false)
 //	List<Model> getListMostPopular(@Param(value = "countMax") long countMax);
 
-	// ---------------ProfitFromModelNames-----------------------
+    // ---------------ProfitFromModelNames-----------------------
 //	@Query(value="select sum(cost) from Record group by car.model.modelName"
 //			+ " having car.model.modelName = :modelName", nativeQuery = false)
-	@Query(value = "select sum(cost) from records join cars on reg_number = car_reg_number"
-			+ " group by model_model_name having model_model_name = :modelName", nativeQuery = true)
-	Double getProfitFromModelName(@Param(value = "modelName") String modelName);
+    @Query(value = "select sum(cost) from records join cars on reg_number = car_reg_number"
+            + " group by model_model_name having model_model_name = :modelName", nativeQuery = true)
+    Double getProfitFromModelName(@Param(value = "modelName") String modelName);
 
-	// -------------MostProfitModelsName--------------------------
-	@Query(value = "select sum(cost) from records join cars on reg_number = car_reg_number"
-			+ " group by model_model_name order by sum(cost) desc limit 1", nativeQuery = true)
-	Double getMaxProfitFromModelNames();
+    // -------------MostProfitModelsName--------------------------
+    @Query(value = "select sum(cost) from records join cars on reg_number = car_reg_number"
+            + " group by model_model_name order by sum(cost) desc limit 1", nativeQuery = true)
+    Double getMaxProfitFromModelNames();
 
-	@Query(value = "select model_model_name from records join cars on reg_number = car_reg_number"
-			+ " group by model_model_name having sum(cost)=:profitMax", nativeQuery = true)
-	List<String> getListStringMostProfitModelNames(@Param(value = "profitMax") Double profitMax);
+    @Query(value = "select model_model_name from records join cars on reg_number = car_reg_number"
+            + " group by model_model_name having sum(cost)=:profitMax", nativeQuery = true)
+    List<String> getListStringMostProfitModelNames(@Param(value = "profitMax") Double profitMax);
 
-//@Query(value = "select model_model_name from records join cars on reg_number = car_reg_number"
+    //@Query(value = "select model_model_name from records join cars on reg_number = car_reg_number"
 //		+ " group by model having sum(cost)=:profitMax", nativeQuery = true)
 //List<Model> getListStringMostProfitModelNames(@Param(value = "profitMax") Double profitMax);
-	// --------------My clear----------------------------------------------
-	@Query(value="select distinct a from Car a join Record b on a.regNumber=b.car.regNumber "
-			+ "where a.flRemoved = true and b.returnDate<:dateDelete",nativeQuery=false)
-	List<Car> removeCars(@Param(value = "dateDelete") LocalDate dateDelete);
-	// ------------------------------------------------------------------------------------
-	List<Record> findByCarFlRemovedTrueOrReturnDateBefore(LocalDate dateDelete);
+    // --------------My clear----------------------------------------------
+    @Query(value = "select distinct a from Car a join Record b on a.regNumber=b.car.regNumber "
+            + "where a.flRemoved = true and b.returnDate<:dateDelete", nativeQuery = true)
+    List<Car> removeCars(@Param(value = "dateDelete") LocalDate dateDelete);
+
+    // ------------------------------------------------------------------------------------
+    List<Record> findByCarFlRemovedTrueOrReturnDateBefore(LocalDate dateDelete);
 
 }

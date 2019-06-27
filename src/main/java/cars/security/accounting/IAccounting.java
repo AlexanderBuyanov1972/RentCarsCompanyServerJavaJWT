@@ -1,4 +1,4 @@
-package cars.service.accounting;
+package cars.security.accounting;
 
 public interface IAccounting {
     String getPassword(String email);

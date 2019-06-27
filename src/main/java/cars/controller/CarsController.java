@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin
+@CrossOrigin(maxAge = 3600)
 @RestController
 @RequestMapping()
 @Api(value = "onlineStore")
@@ -25,6 +25,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = CarsApiConstants.ADD_MODEL)
     Response addModel(@RequestBody ModelDto carModel) {
         return company.addModel(carModel);
@@ -37,7 +38,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = CarsApiConstants.ADD_CAR)
     Response addCar(@RequestBody CarDto carDto) {
         return company.addCar(carDto);
@@ -50,6 +51,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = CarsApiConstants.ADD_DRIVER)
     Response addDriver(@RequestBody DriverDto driverDto) {
         return company.addDriver(driverDto);
@@ -62,6 +64,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_MODEL + "/{modelName}")
     Response getModel(@PathVariable(value = "modelName") String modelName) {
         return company.getModel(modelName);
@@ -74,6 +77,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = CarsApiConstants.GET_CAR + "/{carNumber}")
     Response getCar(@PathVariable(value = "carNumber") String carNumber) {
         return company.getCar(carNumber);
@@ -86,6 +90,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @RequestMapping(value = CarsApiConstants.GET_DRIVER + "/{licenseId}")
     Response getDriver(@PathVariable(value = "licenseId") long licenseId) {
         return company.getDriver(licenseId);
@@ -98,6 +103,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = CarsApiConstants.RENT_CAR)
     Response rentCar(@RequestBody RecordDto record) {
         return company.rentCar(record);
@@ -110,6 +116,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping(value = CarsApiConstants.RETURN_CAR)
     Response returnCar(@RequestBody RecordDto record) {
         return company.returnCar(record);
@@ -122,6 +129,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @DeleteMapping(value = CarsApiConstants.REMOVE_CAR + "/{carNumber}")
     Response removeCar(@PathVariable(value = "carNumber") String carNumber) {
         return company.removeCar(carNumber);
@@ -134,6 +142,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.CLEAR_CARS + "/{date}" + "/{days}")
     Response clearCars(@PathVariable(value = "date") String date,
                        @PathVariable(value = "days") int days) {
@@ -147,6 +156,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_CAR_DRIVERS + "/{carNumber}")
     Response getCarDrivers(@PathVariable(value = "carNumber") String carNumber) {
         return company.getCarDrivers(carNumber);
@@ -159,6 +169,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_DRIVER_CARS + "/{licenseId}")
     Response getDriverCars(@PathVariable(value = "licenseId") long licenseId) {
         return company.getDriverCars(licenseId);
@@ -171,6 +182,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_ALL_MODEL_NAMES)
     Response getAllModelNames() {
         return company.getAllModelNames();
@@ -182,6 +194,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_ALL_MODELS)
     Response getAllModels() {
         return company.getAllModels();
@@ -194,6 +207,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_ALL_CARS)
     Response getAllCars() {
         return company.getAllCars();
@@ -206,6 +220,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_ALL_DRIVERS)
     Response getAllDrivers() {
         return company.getAllDrivers();
@@ -218,6 +233,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_ALL_RECORDS)
     Response getAllRecords() {
         return company.getAllRecords();
@@ -230,6 +246,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.MOST_POPULAR_MODELS)
     Response getMostPopularModels() {
         return company.getMostPopularModels();
@@ -242,6 +259,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.MOST_PROFIT_MODELS)
     Response getMostProfitModels() {
         return company.getMostProfitModels();
@@ -254,6 +272,7 @@ public class CarsController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = "http://localhost:4200")
     @GetMapping(value = CarsApiConstants.GET_PROFIT_MODEL + "/{modelName}")
     Response getModelProfit(@PathVariable(value = "modelName") String modelName) {
         return company.getModelProfit(modelName);
