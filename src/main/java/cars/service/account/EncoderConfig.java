@@ -1,4 +1,4 @@
-package cars.security.accounting;
+package cars.service.account;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +10,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class EncoderConfig {
 	@Bean
 	PasswordEncoder getPasswordEncoder() {
-		System.out.println("возвращаю кодированный пароль");
 		return new BCryptPasswordEncoder();
 	}
 

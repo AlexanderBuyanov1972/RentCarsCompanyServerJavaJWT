@@ -1,9 +1,8 @@
-package cars.service.accounting;
+package cars.service.account;
 
 import cars.dao.AuthRepository;
 import cars.dto.Response;
 import cars.entities.AccountMongo;
-import cars.security.accounting.IAccountsManagement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import java.util.Set;
 
 
 @Service
-public class AccountsManagementMongo implements IAccountsManagement {
+public class AccountsManagement implements IAccountsManagement {
     private static final String OK = "OK";
     private static final String USER_ALREADY_EXISTS = "user already exists";
     private static final String USER_IS_NOT_EXISTS = "user is not exists";
@@ -32,24 +31,23 @@ public class AccountsManagementMongo implements IAccountsManagement {
     PasswordEncoder encoder;
 
     @Override
-    public Response addAccount(String email, String password, String[] roles) {
+    public Response addAccount(String username, String password, String[] roles) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        if (repository.existsById(email))
+        if (repository.existsById(username))
             return response.setMessage(USER_ALREADY_EXISTS);
-        AccountMongo account = new AccountMongo(email, encoder.encode(password), roles);
+        AccountMongo account = new AccountMongo(username, encoder.encode(password), roles);
         account.setDate(LocalDate.now());
         repository.save(account);
         return response.setMessage(OK);
     }
 
     @Override
-    public Response removeAccount(String email) {
+    public Response removeAccount(String username) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        AccountMongo account = repository.findById(email).orElse(null);
-        System.out.println(account);
+        AccountMongo account = repository.findById(username).orElse(null);
         if (account == null)
             return response.setMessage(USER_IS_NOT_EXISTS);
-        repository.deleteById(email);
+        repository.deleteById(username);
         return response.setMessage(OK);
     }
 

@@ -4,5 +4,5 @@ import cars.entities.AccountMongo;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface AuthRepository extends MongoRepository<AccountMongo, String>{
-
+    AccountMongo findByUsername(String username);
 }

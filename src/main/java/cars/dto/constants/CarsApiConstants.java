@@ -2,7 +2,7 @@ package cars.dto.constants;
 
 public interface CarsApiConstants {
 	// ----------------------------------------
-	String SHUTDOWN = "/actuator/shutdown";//ADMIN
+	String SHUTDOWN = "/actuator";//ADMIN
 	String ADD_ACCOUNT = "/account"; // ADMIN
 	String REMOVE_ACCOUNT = "/account"; // ADMIN
 	String UPDATE_PASSWORD = "/account"; //ADMIN

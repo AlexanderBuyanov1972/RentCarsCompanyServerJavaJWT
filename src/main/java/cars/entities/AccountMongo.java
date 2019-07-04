@@ -52,15 +52,10 @@ public class AccountMongo {
 	}
 
 	public AccountMongo() {
-		super();
+
 	}
 
-	@Override
-	public String toString() {
-		return "AccountMongo [username=" + username + ", password=" + password + ", date=" + date + ", roles=" + roles
-				+ "]";
-	}
-	
+
 	
 
 }

@@ -1,6 +1,7 @@
 package cars.security;
 
-import cars.security.accounting.IAccounting;
+
+import cars.dao.AuthRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -11,17 +12,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 
 @Configuration
-public class CarAuthentication implements UserDetailsService {
+public class UserAuthentication implements UserDetailsService {
     @Autowired
     IAccounting iAccounting;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("вощёл в юзер дитаилс");
         String password = iAccounting.getPassword(username);
-        System.out.println("получили пароль для юзера");
-        return new User(username, password, AuthorityUtils.createAuthorityList(iAccounting.getRoles(username)));
+        System.out.println("password-------------->" + password);
+        String[] roles = iAccounting.getRoles(username);
+        System.out.println("roles------------------->" + roles[0]);
+        return new User(username, password, AuthorityUtils.createAuthorityList(roles));
     }
+
+
 
 }
 

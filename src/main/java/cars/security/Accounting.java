@@ -1,8 +1,7 @@
-package cars.service.accounting;
+package cars.security;
 
 import cars.dao.AuthRepository;
 import cars.entities.AccountMongo;
-import cars.security.accounting.IAccounting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
@@ -13,7 +12,7 @@ import java.time.LocalDate;
 
 @Service
 @ManagedResource
-public class AccountingRentCars implements IAccounting {
+public class Accounting implements IAccounting {
     @Value("${period:30}")
     int experationPeriod;
 
@@ -31,33 +30,24 @@ public class AccountingRentCars implements IAccounting {
     AuthRepository repository;
 
     @Override
-    public String getPassword(String email) {
-        System.out.println("получаю паспорт по мылу");
-        AccountMongo account = repository.findById(email).orElse(null);
-        System.out.println("получил аккаунт из базы");
+    public String getPassword(String username) {
+        AccountMongo account = repository.findById(username).orElse(null);
         if (account == null) {
-            System.out.println("аккаунт пустой");
             return "";
         }
         LocalDate expDate = account.getDate().plusDays(experationPeriod);
         if (LocalDate.now().isAfter(expDate) || LocalDate.now().equals(expDate)) {
-            System.out.println("аккаунт просрочен");
             return "";
         }
-        System.out.println("получил паспорт");
         return account.getPassword();
     }
 
     @Override
-    public String[] getRoles(String email) {
-        System.out.println("получаю роли по мылу");
-        AccountMongo account = repository.findById(email).orElse(null);
-        System.out.println("получил аккаунт из базы");
+    public String[] getRoles(String username) {
+        AccountMongo account = repository.findById(username).orElse(null);
         if (account == null) {
-            System.out.println("аккаунт пустой");
             return new String[0];
         }
-        System.out.println("получил роли из базы");
         return account.getRoles();
     }
 
