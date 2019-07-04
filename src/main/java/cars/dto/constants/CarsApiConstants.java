@@ -3,13 +3,7 @@ package cars.dto.constants;
 public interface CarsApiConstants {
 	// ----------------------------------------
 	String SHUTDOWN = "/actuator";//ADMIN
-	String ADD_ACCOUNT = "/account"; // ADMIN
-	String REMOVE_ACCOUNT = "/account"; // ADMIN
-	String UPDATE_PASSWORD = "/account"; //ADMIN
-	String ADD_ROLES = "/roles"; //ADMIN
-	String REMOVE_ROLES = "/roles"; //ADMIN
-
-
+	String ACCOUNT = "/account"; // ADMIN
 	//---------------------------------
 	String ADD_CAR = "/car"; // MANAGER
 	String ADD_MODEL = "/model"; // MANAGER

@@ -234,6 +234,7 @@ public class CarsController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @CrossOrigin(origins = "http://localhost:4200")
+//    @PreAuthorize("hasAuthority('TECHNICIAN')")
     @GetMapping(value = CarsApiConstants.GET_ALL_RECORDS)
     Response getAllRecords() {
         return company.getAllRecords();

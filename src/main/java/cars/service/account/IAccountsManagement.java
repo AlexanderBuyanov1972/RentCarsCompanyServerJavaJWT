@@ -1,17 +1,17 @@
 package cars.service.account;
 
+import cars.dto.AccountDto;
 import cars.dto.Response;
 
 public interface IAccountsManagement {
 
-    Response addAccount(String username, String password, String[] roles);
+    Response addAccount(AccountDto accountDto);
+
+    Response updateAccount(AccountDto accountDto);
 
     Response removeAccount(String username);
 
-    Response updatePassword(String username, String password);
+    Response getAccount(String username);
 
-    Response addRoles(String username, String[] roles);
-
-    Response removeRoles(String username, String[] roles);
 
 }

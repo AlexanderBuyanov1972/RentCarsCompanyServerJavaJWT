@@ -5,18 +5,12 @@ import java.util.Arrays;
 public class AccountDto {
 	private String username;
 	private String password;
-	private String[] roles;
+	private String role;
 	
 	public AccountDto() {
-		super();
+
 	}
 	
-	public AccountDto(String username, String password, String[] roles) {
-		this.username = username;
-		this.password = password;
-		this.roles = roles;
-	}
-
 	public String getUsername() {
 		return username;
 	}
@@ -25,8 +19,8 @@ public class AccountDto {
 		return password;
 	}
 
-	public String[] getRoles() {
-		return roles;
+	public String getRole() {
+		return role;
 	}
 
 	public AccountDto setUsername(String username) {
@@ -39,15 +33,11 @@ public class AccountDto {
 		return this;
 	}
 
-	public AccountDto setRoles(String[] roles) {
-		this.roles = roles;
+	public AccountDto setRole(String role) {
+		this.role = role;
 		return this;
 	}
 
-	@Override
-	public String toString() {
-		return "AccountDto [username=" + username + ", password=" + password + ", roles=" + Arrays.toString(roles)
-				+ "]";
-	}
+
 
 }

@@ -1,18 +1,17 @@
 package cars.service.account;
 
 import cars.dao.AuthRepository;
+import cars.dto.AccountDto;
 import cars.dto.Response;
-import cars.entities.AccountMongo;
+import cars.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
 
 
 @Service
@@ -31,12 +30,14 @@ public class AccountsManagement implements IAccountsManagement {
     PasswordEncoder encoder;
 
     @Override
-    public Response addAccount(String username, String password, String[] roles) {
+    public Response addAccount(AccountDto accountDto) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        if (repository.existsById(username))
+        if (repository.existsById(accountDto.getUsername()))
             return response.setMessage(USER_ALREADY_EXISTS);
-        AccountMongo account = new AccountMongo(username, encoder.encode(password), roles);
-        account.setDate(LocalDate.now());
+        Account account = new Account()
+                .setUsername(accountDto.getUsername())
+                .setPassword(encoder.encode(accountDto.getPassword()))
+                .setRole(accountDto.getRole()).setDate(LocalDate.now());
         repository.save(account);
         return response.setMessage(OK);
     }
@@ -44,7 +45,7 @@ public class AccountsManagement implements IAccountsManagement {
     @Override
     public Response removeAccount(String username) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        AccountMongo account = repository.findById(username).orElse(null);
+        Account account = repository.findById(username).orElse(null);
         if (account == null)
             return response.setMessage(USER_IS_NOT_EXISTS);
         repository.deleteById(username);
@@ -52,50 +53,29 @@ public class AccountsManagement implements IAccountsManagement {
     }
 
     @Override
-    public Response updatePassword(String email, String password) {
+    public Response updateAccount(AccountDto accountDto) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        AccountMongo account = repository.findById(email).orElse(null);
-        if (account == null)
+        if (!repository.existsById(accountDto.getUsername()))
             return response.setMessage(ACCOUNT_IS_NOT_EXISTS);
-        if (encoder.matches(password, account.getPassword()))
-            return response.setMessage(PASSWORD_IS_WRONG);
-        account.setPassword(encoder.encode(password));
-        account.setDate(LocalDate.now());
+        Account account = new Account()
+                .setUsername(accountDto.getUsername())
+                .setPassword(encoder.encode(accountDto.getPassword()))
+                .setRole(accountDto.getRole()).setDate(LocalDate.now());
         repository.save(account);
         return response.setMessage(OK);
 
     }
 
     @Override
-    public Response addRoles(String email, String[] roles) {
+    public Response getAccount(String username) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        AccountMongo account = repository.findById(email).orElse(null);
+        Account account = repository.findById(username).orElse(null);
         if (account == null)
             return response.setMessage(ACCOUNT_IS_NOT_EXISTS);
-        String[] rolesDB = account.getRoles();
-        Set<String> setRolesDB = new HashSet<>(Arrays.asList(rolesDB));
-        setRolesDB.addAll(new HashSet<String>(Arrays.asList(roles)));
-        repository.save(account.setRoles(fromSetToArray(setRolesDB)));
-        return response.setMessage(OK);
+        AccountDto accountDto = new AccountDto().setUsername(username)
+                .setPassword(account.getPassword()).setRole(account.getRole());
+        return response.setContent(accountDto).setMessage(OK);
     }
 
-    @Override
-    public Response removeRoles(String email, String[] roles) {
-        Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        AccountMongo account = repository.findById(email).orElse(null);
-        if (account == null)
-            return response.setMessage(ACCOUNT_IS_NOT_EXISTS);
-        String[] rolesDB = account.getRoles();
-        Set<String> setRolesDB = new HashSet<String>(Arrays.asList(rolesDB));
-        setRolesDB.removeAll(new HashSet<String>(Arrays.asList(roles)));
-        repository.save(account.setRoles(fromSetToArray(setRolesDB)));
-        return response.setMessage(OK);
-    }
-
-    private String[] fromSetToArray(Set<String> setRolesDB) {
-        ArrayList<String> list = new ArrayList<>(setRolesDB);
-        String[] strs = new String[list.size()];
-        return list.toArray(strs);
-    }
 
 }

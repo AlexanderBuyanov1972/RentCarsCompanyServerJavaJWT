@@ -1,7 +1,7 @@
-package cars.security;
+package cars.security.accounting;
 
 import cars.dao.AuthRepository;
-import cars.entities.AccountMongo;
+import cars.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.annotation.ManagedAttribute;
@@ -31,24 +31,20 @@ public class Accounting implements IAccounting {
 
     @Override
     public String getPassword(String username) {
-        AccountMongo account = repository.findById(username).orElse(null);
-        if (account == null) {
+        Account account = repository.findById(username).orElse(null);
+        if (account == null)
             return "";
-        }
         LocalDate expDate = account.getDate().plusDays(experationPeriod);
-        if (LocalDate.now().isAfter(expDate) || LocalDate.now().equals(expDate)) {
+        if (LocalDate.now().isAfter(expDate) || LocalDate.now().equals(expDate))
             return "";
-        }
         return account.getPassword();
     }
 
     @Override
-    public String[] getRoles(String username) {
-        AccountMongo account = repository.findById(username).orElse(null);
-        if (account == null) {
-            return new String[0];
-        }
-        return account.getRoles();
+    public String getRole(String username) {
+        Account account = repository.findById(username).orElse(null);
+        if (account == null)
+            return "";
+        return account.getRole();
     }
-
 }
