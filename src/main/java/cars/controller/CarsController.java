@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(maxAge = 3600)
@@ -234,7 +235,7 @@ public class CarsController {
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @CrossOrigin(origins = "http://localhost:4200")
-//    @PreAuthorize("hasAuthority('TECHNICIAN')")
+    @PreAuthorize("hasRole('ROLE_TECHNICIAN')")
     @GetMapping(value = CarsApiConstants.GET_ALL_RECORDS)
     Response getAllRecords() {
         return company.getAllRecords();
