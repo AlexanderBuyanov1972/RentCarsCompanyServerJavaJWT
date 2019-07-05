@@ -366,9 +366,11 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     public Response getModelProfit(String modelName) {
-        response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
+        response = new Response().setCode(goodCode).setTimestamp(currentDate).setMessage(OK).setContent("");
         Double value = recordRepository.getProfitFromModelName(modelName);
-        return response.setMessage(OK).setContent(value);
+        if(value == null)
+            return response.setContent(0);
+        return response.setContent(value);
     }
 
     //******************************************helping methods*********************************************************

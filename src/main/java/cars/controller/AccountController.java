@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(maxAge = 3600)
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @Api(value = "onlinestore")
 
 public class AccountController {
+    private final String httpsUrl = "http://localhost:4200";
+    private final String hasRoleAdmin = "hasRole('ROLE_ADMIN')";
     @Autowired
     IAccountsManagement accounts;
 
@@ -27,7 +30,8 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = httpsUrl)
+    @PreAuthorize(hasRoleAdmin)
     @PostMapping()
     Response addAccount(@RequestBody AccountDto accountDto) {
         return accounts.addAccount(accountDto);
@@ -40,7 +44,8 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = httpsUrl)
+    @PreAuthorize(hasRoleAdmin)
     @DeleteMapping()
     Response removeAccount(@RequestBody AccountDto accountDto) {
         return accounts.removeAccount(accountDto.getUsername());
@@ -53,7 +58,8 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = httpsUrl)
+    @PreAuthorize(hasRoleAdmin)
     @PutMapping()
     Response updateAccount(@RequestBody AccountDto accountDto) {
         return accounts.updateAccount(accountDto);
@@ -66,7 +72,8 @@ public class AccountController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = httpsUrl)
+    @PreAuthorize(hasRoleAdmin)
     @GetMapping()
     Response getAccount(@RequestBody AccountDto accountDto) {
         return accounts.getAccount(accountDto.getUsername());
