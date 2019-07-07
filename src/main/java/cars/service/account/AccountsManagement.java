@@ -30,6 +30,18 @@ public class AccountsManagement implements IAccountsManagement {
     PasswordEncoder encoder;
 
     @Override
+    public Response login(AccountDto accountDto) {
+        Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
+        Account account = repository.findById(accountDto.getUsername()).orElse(null);
+        if (account == null)
+            return response.setMessage(USER_IS_NOT_EXISTS);
+        if (encoder.matches(accountDto.getPassword(), account.getPassword()))
+            return response.setContent(account.getRole()).setMessage(OK);
+        return response.setMessage(PASSWORD_IS_WRONG);
+
+    }
+
+    @Override
     public Response addAccount(AccountDto accountDto) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
         if (repository.existsById(accountDto.getUsername()))

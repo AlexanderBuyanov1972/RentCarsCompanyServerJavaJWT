@@ -4,6 +4,7 @@ import cars.dto.AccountDto;
 import cars.dto.Response;
 
 public interface IAccountsManagement {
+    Response login(AccountDto accountDto);
 
     Response addAccount(AccountDto accountDto);
 

@@ -20,12 +20,9 @@ public class UserAuthentication implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("username------------------>" + username);
-        String password = iAccounting.getPassword(username);
-        System.out.println("password------------------>" + password);
-        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(iAccounting.getRole(username));
-        System.out.println("roles------------------------>" + roles);
-        return new User(username, password, roles);
+         String password = iAccounting.getPassword(username);
+         List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(iAccounting.getRole(username));
+         return new User(username, password, roles);
 
     }
 
