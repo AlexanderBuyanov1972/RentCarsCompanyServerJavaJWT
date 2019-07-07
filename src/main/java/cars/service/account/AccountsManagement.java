@@ -44,23 +44,14 @@ public class AccountsManagement implements IAccountsManagement {
     @Override
     public Response addAccount(AccountDto accountDto) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        if (repository.existsById(accountDto.getUsername()))
+        Account account = repository.findById(accountDto.getUsername()).orElse(null);
+        if (account != null)
             return response.setMessage(USER_ALREADY_EXISTS);
-        Account account = new Account()
+         account = new Account()
                 .setUsername(accountDto.getUsername())
                 .setPassword(encoder.encode(accountDto.getPassword()))
                 .setRole(accountDto.getRole()).setDate(LocalDate.now());
         repository.save(account);
-        return response.setMessage(OK);
-    }
-
-    @Override
-    public Response removeAccount(String username) {
-        Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        Account account = repository.findById(username).orElse(null);
-        if (account == null)
-            return response.setMessage(USER_IS_NOT_EXISTS);
-        repository.deleteById(username);
         return response.setMessage(OK);
     }
 
@@ -88,6 +79,14 @@ public class AccountsManagement implements IAccountsManagement {
                 .setPassword(account.getPassword()).setRole(account.getRole());
         return response.setContent(accountDto).setMessage(OK);
     }
-
+    @Override
+    public Response removeAccount(String username) {
+        Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
+        Account account = repository.findById(username).orElse(null);
+        if (account == null)
+            return response.setMessage(USER_IS_NOT_EXISTS);
+        repository.deleteById(username);
+        return response.setMessage(OK);
+    }
 
 }

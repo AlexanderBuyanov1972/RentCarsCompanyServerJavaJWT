@@ -51,20 +51,6 @@ public class AccountController {
         return accounts.addAccount(accountDto);
     }
 
-    // ------------------removeAccount----------------------------------------------------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    @ApiOperation(value = "Removing an account from DataBase", response = Response.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully removed account"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = httpsUrl)
-    @PreAuthorize(hasRoleAdmin)
-    @DeleteMapping()
-    Response removeAccount(@RequestBody AccountDto accountDto) {
-        return accounts.removeAccount(accountDto.getUsername());
-    }
-
     // ------------------updateAccount---------------------------------------------------------------------------------
     @ApiOperation(value = "Updating an account in DataBase", response = Response.class)
     @ApiResponses(value = {
@@ -89,9 +75,24 @@ public class AccountController {
     @CrossOrigin(origins = httpsUrl)
     @PreAuthorize(hasRoleAdmin)
     @GetMapping()
-    Response getAccount(@RequestBody AccountDto accountDto) {
-        return accounts.getAccount(accountDto.getUsername());
+    Response getAccount(@RequestParam(value = "username") String username) {
+        return accounts.getAccount(username);
 
     }
+
+    // ------------------removeAccount----------------------------------------------------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    @ApiOperation(value = "Removing an account from DataBase", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully removed account"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = httpsUrl)
+    @PreAuthorize(hasRoleAdmin)
+    @DeleteMapping()
+    Response removeAccount(@RequestParam(value = "username") String username) {
+        return accounts.removeAccount(username);
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
 }
