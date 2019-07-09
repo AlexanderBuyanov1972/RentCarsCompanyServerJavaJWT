@@ -3,6 +3,7 @@ package cars.controller;
 import cars.dto.AccountDto;
 import cars.dto.Response;
 import cars.dto.constants.CarsApiConstants;
+import cars.entities.Account;
 import cars.service.account.IAccountsManagement;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -21,8 +22,26 @@ public class AccountController {
     private final String httpsUrl = "http://localhost:4200";
     private final String hasRoleAdmin = "hasRole('ROLE_ADMIN')";
     private final String PERMIT_ALL = "permitAll";
+
     @Autowired
     IAccountsManagement accounts;
+    @Autowired
+    private IAccountsManagement iAccountsManagement;
+
+    //------------------------------jwt-registration--------------------------------------------------------------
+    @ApiOperation(value = "Registration", response = Account.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Registration is successfully"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = httpsUrl)
+    @PreAuthorize(PERMIT_ALL)
+    @PostMapping(CarsApiConstants.REGISTRATION)
+    public Account register(@RequestBody AccountDto accountDto) {
+        return iAccountsManagement.register(accountDto);
+    }
+
     // ------------------login-------------------------------------------------------------------------------------
     @ApiOperation(value = "Login", response = Response.class)
     @ApiResponses(value = {

@@ -31,7 +31,7 @@ public interface IRentCompany {
 
     // all cars for which the returnDate before currentDate - days with10
     // flRemoved=true
-    // are deleted from an information model along with all related records
+    // are deleted from an information modelAccount along with all related records
     // it returns list of the deleted cars
     // *****************************************************************
     Response getCarDrivers(String carNumber); // returns11
@@ -57,6 +57,6 @@ public interface IRentCompany {
     Response getModelProfit(String modelName);
 
     Response getMostProfitModels(); // returns list of most
-    // proftable model names
+    // proftable modelAccount names
 
 }

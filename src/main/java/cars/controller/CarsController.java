@@ -29,9 +29,9 @@ public class CarsController {
     IRentCompany company;
 
     // -----------addModel----------------------------------------------------------------------------------------------
-    @ApiOperation(value = "Adding a new model to DataBase", response = Response.class)
+    @ApiOperation(value = "Adding a new modelAccount to DataBase", response = Response.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully added model"),
+            @ApiResponse(code = 200, message = "Successfully added modelAccount"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
@@ -71,9 +71,9 @@ public class CarsController {
     }
 
     // -----------getModel----------------------------------------------------------------------------------------------
-    @ApiOperation(value = "Getting a new model to DataBase", response = Response.class)
+    @ApiOperation(value = "Getting a new modelAccount to DataBase", response = Response.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully gotten model"),
+            @ApiResponse(code = 200, message = "Successfully gotten modelAccount"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
@@ -295,9 +295,9 @@ public class CarsController {
     }
 
     // -----------------getModelProfit----------------------------------------------------------------------------------
-    @ApiOperation(value = "Getting profit of  model from DataBase", response = Response.class)
+    @ApiOperation(value = "Getting profit of  modelAccount from DataBase", response = Response.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully gotten profit of model"),
+            @ApiResponse(code = 200, message = "Successfully gotten profit of modelAccount"),
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})

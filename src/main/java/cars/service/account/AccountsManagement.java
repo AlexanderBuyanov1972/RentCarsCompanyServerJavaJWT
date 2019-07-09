@@ -1,17 +1,16 @@
 package cars.service.account;
 
-import cars.dao.AuthRepository;
+import cars.dao.AccountRepository;
 import cars.dto.AccountDto;
 import cars.dto.Response;
 import cars.entities.Account;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @Service
@@ -25,14 +24,36 @@ public class AccountsManagement implements IAccountsManagement {
     private String currentDate = LocalDateTime.now().toString();
 
     @Autowired
-    AuthRepository repository;
+    AccountRepository accountRepository;
     @Autowired
     PasswordEncoder encoder;
+
+    // -----------------------------------jwt----------------------------------------------------------
+    @Override
+    public Account register(AccountDto accountDto) {
+        Account account = accountRepository.findById(accountDto.getUsername()).orElse(null);
+        if (account != null) {
+            return null;
+        }
+        account = new Account().setUsername(accountDto.getUsername())
+                .setPassword(encoder.encode(accountDto.getPassword()))
+                .setRole(accountDto.getRole())
+                .setDate(LocalDate.now());
+        accountRepository.save(account);
+        return account;
+    }
+
+    @Override
+    public Optional<Account> findByName(String username) {
+        return accountRepository.findById(username);
+    }
+
+    // -----------------------------------------------------------------------------------------------------
 
     @Override
     public Response login(AccountDto accountDto) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        Account account = repository.findById(accountDto.getUsername()).orElse(null);
+        Account account = accountRepository.findById(accountDto.getUsername()).orElse(null);
         if (account == null)
             return response.setMessage(USER_IS_NOT_EXISTS);
         if (encoder.matches(accountDto.getPassword(), account.getPassword()))
@@ -44,27 +65,27 @@ public class AccountsManagement implements IAccountsManagement {
     @Override
     public Response addAccount(AccountDto accountDto) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        Account account = repository.findById(accountDto.getUsername()).orElse(null);
+        Account account = accountRepository.findById(accountDto.getUsername()).orElse(null);
         if (account != null)
             return response.setMessage(USER_ALREADY_EXISTS);
-         account = new Account()
+        account = new Account()
                 .setUsername(accountDto.getUsername())
                 .setPassword(encoder.encode(accountDto.getPassword()))
                 .setRole(accountDto.getRole()).setDate(LocalDate.now());
-        repository.save(account);
+        accountRepository.save(account);
         return response.setMessage(OK);
     }
 
     @Override
     public Response updateAccount(AccountDto accountDto) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        if (!repository.existsById(accountDto.getUsername()))
+        if (!accountRepository.existsById(accountDto.getUsername()))
             return response.setMessage(ACCOUNT_IS_NOT_EXISTS);
         Account account = new Account()
                 .setUsername(accountDto.getUsername())
                 .setPassword(encoder.encode(accountDto.getPassword()))
                 .setRole(accountDto.getRole()).setDate(LocalDate.now());
-        repository.save(account);
+        accountRepository.save(account);
         return response.setMessage(OK);
 
     }
@@ -72,20 +93,21 @@ public class AccountsManagement implements IAccountsManagement {
     @Override
     public Response getAccount(String username) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        Account account = repository.findById(username).orElse(null);
+        Account account = accountRepository.findById(username).orElse(null);
         if (account == null)
             return response.setMessage(ACCOUNT_IS_NOT_EXISTS);
         AccountDto accountDto = new AccountDto().setUsername(username)
                 .setPassword(account.getPassword()).setRole(account.getRole());
         return response.setContent(accountDto).setMessage(OK);
     }
+
     @Override
     public Response removeAccount(String username) {
         Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        Account account = repository.findById(username).orElse(null);
+        Account account = accountRepository.findById(username).orElse(null);
         if (account == null)
             return response.setMessage(USER_IS_NOT_EXISTS);
-        repository.deleteById(username);
+        accountRepository.deleteById(username);
         return response.setMessage(OK);
     }
 
