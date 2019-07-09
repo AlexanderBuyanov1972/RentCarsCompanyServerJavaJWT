@@ -32,6 +32,7 @@ public class AuthorizationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain
     ) throws ServletException, IOException {
         String header = httpServletRequest.getHeader(tokenProperties.getHeader());
+
         if (headerIsValid(header)) {
             try {
                 Claims claims = getClaims(getToken(header));

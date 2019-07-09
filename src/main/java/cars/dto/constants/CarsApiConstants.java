@@ -8,10 +8,10 @@ public interface CarsApiConstants {
 	String ACCOUNT = "/account"; // ADMIN
 	//---------------------------------
 	String ADD_CAR = "/car"; // MANAGER
-	String ADD_MODEL = "/modelAccount"; // MANAGER
+	String ADD_MODEL = "/model"; // MANAGER
 	String ADD_DRIVER = "/driver"; //CLERK
 	//---------------------------------
-	String GET_MODEL = "/modelAccount";// ALL with not authentication
+	String GET_MODEL = "/model";// ALL with not authentication
 	String GET_CAR = "/car";//authenticated
 	String GET_DRIVER = "/driver";// MANAGER,CLERK
 	//---------------------------------
@@ -32,7 +32,7 @@ public interface CarsApiConstants {
 	//-----------------------------------------
 	String MOST_POPULAR_MODELS = "/models/popular";// STATIST
 	String MOST_PROFIT_MODELS = "/models/profit";// STATIST
-	String GET_PROFIT_MODEL = "/modelAccount/profit";// MANAGER,STATIST
+	String GET_PROFIT_MODEL = "/model/profit";// MANAGER,STATIST
 
     //------------------------------------------
 

@@ -38,8 +38,7 @@ public class TokenProperties {
         return prefix;
     }
 
-    public void setPrefix(String prefix)
-    {
+    public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
 

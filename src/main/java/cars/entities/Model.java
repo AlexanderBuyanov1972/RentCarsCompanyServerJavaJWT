@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class Model {
     @Id
-    @ApiModelProperty(notes = "The modelAccount's name as ID")
+    @ApiModelProperty(notes = "The model's name as ID")
     private String modelName;
     @ApiModelProperty(notes = "The gas tank of the model", required = true)
     private int gasTank;

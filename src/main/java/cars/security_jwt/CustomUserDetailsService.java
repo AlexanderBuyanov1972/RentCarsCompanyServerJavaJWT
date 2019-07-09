@@ -1,8 +1,7 @@
 package cars.security_jwt;
 
-
-import cars.entities.Account;
-import cars.service.account.IAccountsManagement;
+import cars.security_jwt.User.UserService;
+import cars.security_jwt.User.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,28 +14,28 @@ import java.util.List;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private IAccountsManagement iAccountsManagement;
+    private UserService userService;
 
-    public CustomUserDetailsService(IAccountsManagement accountService) {
-        this.iAccountsManagement = accountService;
+    public CustomUserDetailsService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return iAccountsManagement.findByName(username)
+        return userService.findByUsername(username)
                 .map(this::getUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username: %s not found", username)));
     }
 
-    private org.springframework.security.core.userdetails.User getUserDetails(Account account) {
+    private org.springframework.security.core.userdetails.User getUserDetails(User u) {
         return new org.springframework.security.core.userdetails.User(
-                account.getUsername(),
-                account.getPassword(),
-                getGrantedAuthorities(account));
+                u.getUserCredentials().getUsername(),
+                u.getUserCredentials().getPassword(),
+                getGrantedAuthorities(u));
     }
 
-    private List<GrantedAuthority> getGrantedAuthorities(Account account) {
+    private List<GrantedAuthority> getGrantedAuthorities(User u) {
         return AuthorityUtils
-                .commaSeparatedStringToAuthorityList(account.getRole());
+                .commaSeparatedStringToAuthorityList(u.getUserCredentials().getRole());
     }
 }

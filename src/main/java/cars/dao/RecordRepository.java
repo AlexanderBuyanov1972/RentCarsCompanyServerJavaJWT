@@ -31,13 +31,13 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
             + " having count(*) = :countMax", nativeQuery = false)
     List<String> getListMostPopular(@Param(value = "countMax") long countMax);
 
-//	@Query(value = "select car.modelAccount from Record group by car.modelAccount"
+//	@Query(value = "select car.model from Record group by car.model"
 //			+ " having count(*) =:countMax", nativeQuery = false)
 //	List<Model> getListMostPopular(@Param(value = "countMax") long countMax);
 
     // ---------------ProfitFromModelNames-----------------------
-//	@Query(value="select sum(cost) from Record group by car.modelAccount.modelName"
-//			+ " having car.modelAccount.modelName = :modelName", nativeQuery = false)
+//	@Query(value="select sum(cost) from Record group by car.model.modelName"
+//			+ " having car.model.modelName = :modelName", nativeQuery = false)
     @Query(value = "select sum(cost) from records join cars on reg_number = car_reg_number"
             + " group by model_model_name having model_model_name = :modelName", nativeQuery = true)
     Double getProfitFromModelName(@Param(value = "modelName") String modelName);
@@ -52,7 +52,7 @@ public interface RecordRepository extends JpaRepository<Record, Integer> {
     List<String> getListStringMostProfitModelNames(@Param(value = "profitMax") Double profitMax);
 
     //@Query(value = "select model_model_name from records join cars on reg_number = car_reg_number"
-//		+ " group by modelAccount having sum(cost)=:profitMax", nativeQuery = true)
+//		+ " group by model having sum(cost)=:profitMax", nativeQuery = true)
 //List<Model> getListStringMostProfitModelNames(@Param(value = "profitMax") Double profitMax);
     // --------------My clear----------------------------------------------
     @Query(value = "select distinct a from Car a join Record b on a.regNumber=b.car.regNumber "

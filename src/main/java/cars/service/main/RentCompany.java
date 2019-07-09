@@ -30,7 +30,7 @@ public class RentCompany extends AbstractRentCompany {
     @Value("${gasPrice:20}")
     int gasPrice;
 
-    private String MODEL_IS_EXISTS = "modelAccount is exists";
+    private String MODEL_IS_EXISTS = "model is exists";
     private String OK = "OK";
     private String CAR_IS_EXISTS = "car is exists";
     private String DRIVER_EXISTS = "driver exists";
@@ -38,7 +38,7 @@ public class RentCompany extends AbstractRentCompany {
     private String CAR_NOT_RENTED = "car not rented";
     private String RETURN_DATE_WRONG = "return date wrong";
     private String CAR_IS_NOT_EXISTS = "car is not exists";
-    private String MODEL_IS_NOT_EXISTS = "modelAccount is not exists";
+    private String MODEL_IS_NOT_EXISTS = "model is not exists";
     private String DRIVER_IS_NOT_EXISTS = "driver is not exists";
     private int goodCode = 200;
     private String currentDate = LocalDateTime.now().toString();
@@ -216,7 +216,7 @@ public class RentCompany extends AbstractRentCompany {
         Response response = getModel(carDto.getModelName());
         ModelDto modelDto = (ModelDto) response.getContent();
         if (modelDto == null)
-            throw new RuntimeException("Information modelAccount inconsistency (the car exists but modelAccount doesn't)");
+            throw new RuntimeException("Information model inconsistency (the car exists but model doesn't)");
         float costGas = 0;
         costPeriod = getCostPeriod(record, period, modelDto);
         costGas = getCostGas(record, modelDto);
