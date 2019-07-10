@@ -1,6 +1,7 @@
 package cars.security_jwt.config;
 
 
+import cars.dto.constants.CarsApiConstants;
 import cars.security_jwt.AuthenticationFilter;
 import cars.security_jwt.AuthorizationFilter;
 import cars.security_jwt.CustomUserDetailsService;
@@ -50,8 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new AuthorizationFilter(tokenProperties), UsernamePasswordAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, tokenProperties.getLoginPath()).permitAll()
-                .antMatchers(HttpMethod.POST, "/api/users").permitAll()
-                .antMatchers("/api/users/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, CarsApiConstants.ACCOUNT + CarsApiConstants.LOGIN).permitAll()
+//                .antMatchers(CarsApiConstants.ACCOUNT + "/**").hasRole("DRIVER")
                 .antMatchers("/api/**").authenticated()
                 .anyRequest().permitAll();
     }

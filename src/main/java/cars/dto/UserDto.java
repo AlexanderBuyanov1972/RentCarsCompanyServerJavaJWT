@@ -1,13 +1,11 @@
 package cars.dto;
 
-import java.util.Arrays;
-
-public class AccountDto {
+public class UserDto {
 	private String username;
 	private String password;
 	private String role;
 	
-	public AccountDto() {
+	public UserDto() {
 
 	}
 	
@@ -23,17 +21,17 @@ public class AccountDto {
 		return role;
 	}
 
-	public AccountDto setUsername(String username) {
+	public UserDto setUsername(String username) {
 		this.username = username;
 		return this;
 	}
 
-	public AccountDto setPassword(String password) {
+	public UserDto setPassword(String password) {
 		this.password = password;
 		return this;
 	}
 
-	public AccountDto setRole(String role) {
+	public UserDto setRole(String role) {
 		this.role = role;
 		return this;
 	}

@@ -1,5 +1,6 @@
 package cars.security_jwt.config;
 
+import cars.dto.constants.CarsApiConstants;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -11,7 +12,7 @@ public class DevCorsConfiguration implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/api/**")
+        registry.addMapping(CarsApiConstants.ACCOUNT + "/**")
                 .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
                 .exposedHeaders("Authorization");
     }

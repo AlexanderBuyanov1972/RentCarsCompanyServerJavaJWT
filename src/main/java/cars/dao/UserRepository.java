@@ -1,9 +1,10 @@
-package cars.security_jwt.User.model;
+package cars.dao;
 
+import cars.entities.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, String> {
-    Optional<User> findByUserCredentialsUsername(String username);
+    Optional<User> findByUsername(String username);
 }

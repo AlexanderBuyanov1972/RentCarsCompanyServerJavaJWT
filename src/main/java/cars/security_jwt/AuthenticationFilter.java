@@ -1,6 +1,6 @@
 package cars.security_jwt;
 
-import cars.security_jwt.User.model.UserCredentials;
+import cars.entities.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -42,7 +42,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
             throws AuthenticationException {
         try {
-            UserCredentials credentials = getCredentials(request);
+            User credentials = getCredentials(request);
             UsernamePasswordAuthenticationToken token = createAuthenticationToken(credentials);
             return authenticationManager.authenticate(token);
         } catch (IOException e) {
@@ -50,11 +50,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
         }
     }
 
-    private UserCredentials getCredentials(HttpServletRequest request) throws IOException {
-        return objectMapper.readValue(request.getInputStream(), UserCredentials.class);
+    private User getCredentials(HttpServletRequest request) throws IOException {
+        return objectMapper.readValue(request.getInputStream(), User.class);
     }
 
-    private UsernamePasswordAuthenticationToken createAuthenticationToken(UserCredentials credentials) {
+    private UsernamePasswordAuthenticationToken createAuthenticationToken(User credentials) {
         return new UsernamePasswordAuthenticationToken(
                 credentials.getUsername(),
                 credentials.getPassword(),

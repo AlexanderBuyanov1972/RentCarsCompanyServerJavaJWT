@@ -2,10 +2,9 @@ package cars.dto.constants;
 
 public interface CarsApiConstants {
 	// -------------Authorization and autentication---------------------------
-	String REGISTRATION = "/registration"; // ALL with not authentication
 	String LOGIN = "/login"; //  ALL with not authentication
-	String SHUTDOWN = "/actuator/shutdown";//ADMIN
 	String ACCOUNT = "/account"; // ADMIN
+	String SHUTDOWN = "/actuator/shutdown";//ADMIN
 	//---------------------------------
 	String ADD_CAR = "/car"; // MANAGER
 	String ADD_MODEL = "/model"; // MANAGER
