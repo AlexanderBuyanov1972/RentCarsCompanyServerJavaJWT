@@ -1,8 +1,8 @@
 package cars.security_jwt;
 
+import cars.dao.UserRepository;
 import cars.entities.User;
-import cars.service.account.IUserManagement;
-import cars.service.account.UserManagement;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,16 +14,13 @@ import java.util.List;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
+    @Autowired
+    private UserRepository userRepository;
 
-    private IUserManagement userManagement;
-
-    public CustomUserDetailsService(UserManagement userManagement) {
-        this.userManagement = userManagement;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userManagement.findByUsername(username)
+        return userRepository.findById(username)
                 .map(this::getUserDetails)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username: %s not found", username)));
     }

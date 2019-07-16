@@ -9,5 +9,4 @@ public class RentCompanyApplServer {
         SpringApplication.run(RentCompanyApplServer.class, args);
 
     }
-
 }

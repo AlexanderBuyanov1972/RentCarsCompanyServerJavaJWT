@@ -1,20 +1,19 @@
 package cars.service.account;
 
+import cars.dao.UserRepository;
 import cars.dto.Response;
 import cars.dto.UserDto;
 import cars.entities.User;
-import cars.dao.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 
 
 @Service
 public class UserManagement implements IUserManagement {
-    private static final String DEFAULT_ROLE = "ROLE_DRIVER";
+
     private static final String OK = "OK";
     private static final String USER_ALREADY_EXISTS = "user already exists";
     private static final String USER_IS_NOT_EXISTS = "user is not exists";
@@ -25,17 +24,6 @@ public class UserManagement implements IUserManagement {
     UserRepository userRepository;
     @Autowired
     BCryptPasswordEncoder encoder;
-
-    //******************************************************************************************************
-    @Override
-    public void login(UserDto userDto) {
-
-    }
-
-    @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
 
 
     @Override
@@ -48,13 +36,10 @@ public class UserManagement implements IUserManagement {
                 .setUsername(userDto.getUsername())
                 .setPassword(encoder.encode(userDto.getPassword()))
                 .setDate(LocalDateTime.now());
-        if (userDto.getRole() == null || userDto.getRole().equals("")) {
-            user.setRole(DEFAULT_ROLE);
-        } else {
+        if (userDto.getRole() != null && !userDto.getRole().equals(""))
             user.setRole(userDto.getRole());
-        }
         userRepository.save(user);
-        return response.setMessage(OK).setContent(user);
+        return response.setMessage(OK);
     }
 
     @Override
@@ -92,4 +77,12 @@ public class UserManagement implements IUserManagement {
         return response.setMessage(OK);
     }
 
+    @Override
+    public Response getUserRole(String username) {
+        Response response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
+        User user = userRepository.findById(username).orElse(null);
+        if (user == null)
+            return response.setMessage(USER_IS_NOT_EXISTS);
+        return response.setMessage(OK).setContent(user.getRole());
+    }
 }

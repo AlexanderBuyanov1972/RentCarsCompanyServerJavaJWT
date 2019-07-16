@@ -1,12 +1,11 @@
 package cars.security_jwt.config;
 
 
-import cars.dto.constants.CarsApiConstants;
 import cars.security_jwt.AuthenticationFilter;
 import cars.security_jwt.AuthorizationFilter;
 import cars.security_jwt.CustomUserDetailsService;
 import cars.security_jwt.TokenProperties;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -19,11 +18,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.servlet.http.HttpServletResponse;
 
-@EnableWebSecurity
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+import static cars.dto.constants.CarsApiConstants.*;
 
-    @Value("${cors.enabled:false}")
-    private boolean corsEnabled;
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@Configuration
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final TokenProperties tokenProperties;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -39,30 +39,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        applyCors(httpSecurity)
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedResponse())
-                .and()
-                .logout()
-                .and()
-                .addFilter(new AuthenticationFilter(authenticationManagerBean(), tokenProperties))
-                .addFilterAfter(new AuthorizationFilter(tokenProperties), UsernamePasswordAuthenticationFilter.class)
-                .authorizeRequests()
-                .antMatchers(HttpMethod.POST, tokenProperties.getLoginPath()).permitAll()
-                .antMatchers(HttpMethod.POST, CarsApiConstants.ACCOUNT + CarsApiConstants.LOGIN).permitAll()
-//                .antMatchers(CarsApiConstants.ACCOUNT + "/**").hasRole("DRIVER")
-                .antMatchers("/api/**").authenticated()
-                .anyRequest().permitAll();
-    }
+        httpSecurity.cors();
+        httpSecurity.csrf().disable();
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, tokenProperties.getLoginPath()).permitAll();
+        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.exceptionHandling().authenticationEntryPoint(unauthorizedResponse());
+        httpSecurity.logout();
+        httpSecurity.addFilter(new AuthenticationFilter(authenticationManagerBean(), tokenProperties));
+        httpSecurity.addFilterAfter(new AuthorizationFilter(tokenProperties), UsernamePasswordAuthenticationFilter.class);
+        httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, tokenProperties.getLoginPath()).permitAll();
+        httpSecurity.authorizeRequests().antMatchers(GET_ALL_MODELS, GET_MODEL,ACCOUNT + GET_ROLE).permitAll();
+        httpSecurity.authorizeRequests().antMatchers(GET_CAR, GET_ALL_CARS).authenticated();
+        httpSecurity.authorizeRequests().antMatchers(SHUTDOWN, ACCOUNT).hasRole("ADMIN");
+        httpSecurity.authorizeRequests().antMatchers(ADD_MODEL, ADD_CAR, REMOVE_CAR, CLEAR_CARS, GET_PROFIT_MODEL).hasRole("MANAGER");
+        httpSecurity.authorizeRequests().antMatchers(ADD_DRIVER, RENT_CAR, RETURN_CAR, GET_ALL_DRIVERS, GET_DRIVER, GET_ALL_RECORDS).hasRole("CLERK");
+        httpSecurity.authorizeRequests().antMatchers(GET_DRIVER_CARS, GET_CAR_DRIVERS).hasRole("DRIVER");
+        httpSecurity.authorizeRequests().antMatchers(MOST_POPULAR_MODELS, MOST_PROFIT_MODELS).hasRole("STATIST");
 
-    private HttpSecurity applyCors(HttpSecurity httpSecurity) throws Exception {
-        if (corsEnabled) {
-            return httpSecurity.cors().and();
-        } else {
-            return httpSecurity;
-        }
+
+
     }
 
     private AuthenticationEntryPoint unauthorizedResponse() {
@@ -73,4 +68,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
+
 }

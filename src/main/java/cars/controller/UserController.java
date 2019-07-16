@@ -12,40 +12,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin( maxAge = 3600)
 @RestController
-//@RequestMapping(CarsApiConstants.ACCOUNT)
+@RequestMapping(CarsApiConstants.ACCOUNT)
 @Api(value = "onlinestore")
 
 public class UserController {
-    private final String httpsUrl = "http://localhost:4200";
+    private final String httpsUrl = "*";
+    private final String allowed_headers = "*";
     private final String hasRoleAdmin = "hasRole('ROLE_ADMIN')";
     private final String PERMIT_ALL = "permitAll";
 
     @Autowired
     private IUserManagement userManagement;
-    //------------------------------------shutdown-------------------------------------------------------------------
-    @ApiOperation(value = "Shutdown")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully shutdown"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = httpsUrl)
-    @PreAuthorize(hasRoleAdmin)
-    @PostMapping(CarsApiConstants.SHUTDOWN)
-    void shutdown() {  }
-    //------------------------------------login-------------------------------------------------------------------
-    @ApiOperation(value = "Login")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Successfully login"),
-            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
-            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
-            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = httpsUrl)
-    @PreAuthorize(PERMIT_ALL)
-    @PostMapping(CarsApiConstants.ACCOUNT + CarsApiConstants.LOGIN)
-    void login(@RequestBody UserDto userDto) {  }
+
      // ------------------addUser-------------------------------------------------------------------------------------
     @ApiOperation(value = "Adding an user to DataBase", response = Response.class)
     @ApiResponses(value = {
@@ -53,9 +33,9 @@ public class UserController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = httpsUrl)
-    @PreAuthorize(PERMIT_ALL)
-    @PostMapping(CarsApiConstants.ACCOUNT)
+    @CrossOrigin(origins = httpsUrl, allowedHeaders = allowed_headers)
+    @PreAuthorize(hasRoleAdmin)
+    @PostMapping()
     Response addUser(@RequestBody UserDto userDto) {
         return userManagement.addUser(userDto);
     }
@@ -67,9 +47,9 @@ public class UserController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = httpsUrl)
+    @CrossOrigin(origins = httpsUrl, allowedHeaders = allowed_headers)
     @PreAuthorize(hasRoleAdmin)
-    @PutMapping(CarsApiConstants.ACCOUNT)
+    @PutMapping()
     Response updateUser(@RequestBody UserDto userDto) {
         return userManagement.updateUser(userDto);
     }
@@ -81,9 +61,9 @@ public class UserController {
             @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
             @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
-    @CrossOrigin(origins = httpsUrl)
+    @CrossOrigin(origins = httpsUrl, allowedHeaders = allowed_headers)
     @PreAuthorize(hasRoleAdmin)
-    @GetMapping(CarsApiConstants.ACCOUNT)
+    @GetMapping()
     Response getUser(@RequestParam(value = "username") String username) {
         return userManagement.getUser(username);
 
@@ -98,10 +78,22 @@ public class UserController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @CrossOrigin(origins = httpsUrl)
     @PreAuthorize(hasRoleAdmin)
-    @DeleteMapping(CarsApiConstants.ACCOUNT)
+    @DeleteMapping()
     Response removeUser(@RequestParam(value = "username") String username) {
         return userManagement.removeUser(username);
     }
-
+    //------------------------------------getUserRole-------------------------------------------------------------------
+    @ApiOperation(value = "Get User Role", response = Response.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully got role"),
+            @ApiResponse(code = 401, message = "You are not authorized to view the resource"),
+            @ApiResponse(code = 403, message = "Accessing the resource you were trying to reach is forbidden"),
+            @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
+    @CrossOrigin(origins = httpsUrl, allowedHeaders = allowed_headers)
+    @PreAuthorize(PERMIT_ALL)
+    @GetMapping(CarsApiConstants.GET_ROLE)
+    Response getUserRole(@RequestParam(value = "username") String username) {
+        return userManagement.getUserRole(username);
+    }
     // -----------------------------------------------------------------------------------------------------------------
 }

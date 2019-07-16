@@ -1,6 +1,5 @@
 package cars.security_jwt;
 
-
 import cars.dto.constants.CarsApiConstants;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "security.jwt")
 public class TokenProperties {
 
-    private String loginPath = CarsApiConstants.ACCOUNT + CarsApiConstants.LOGIN;
+    private String loginPath = CarsApiConstants.LOGIN;
 
     private String header = "Authorization";
 
