@@ -48,7 +48,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.addFilter(new AuthenticationFilter(authenticationManagerBean(), tokenProperties));
         httpSecurity.addFilterAfter(new AuthorizationFilter(tokenProperties), UsernamePasswordAuthenticationFilter.class);
         httpSecurity.authorizeRequests().antMatchers(HttpMethod.POST, tokenProperties.getLoginPath()).permitAll();
-        httpSecurity.authorizeRequests().antMatchers(GET_ALL_MODELS, GET_MODEL,ACCOUNT + GET_ROLE).permitAll();
+        httpSecurity.authorizeRequests().antMatchers(GET_ALL_MODELS, GET_MODEL, ACCOUNT + GET_ROLE).permitAll();
         httpSecurity.authorizeRequests().antMatchers(GET_CAR, GET_ALL_CARS).authenticated();
         httpSecurity.authorizeRequests().antMatchers(SHUTDOWN, ACCOUNT).hasRole("ADMIN");
         httpSecurity.authorizeRequests().antMatchers(ADD_MODEL, ADD_CAR, REMOVE_CAR, CLEAR_CARS, GET_PROFIT_MODEL).hasRole("MANAGER");

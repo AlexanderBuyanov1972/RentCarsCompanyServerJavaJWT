@@ -27,7 +27,7 @@ public interface IRentCompany {
     Response removeCar(String carNumber);// (OK,CAR_IN_USE,CAR_NOT_EXISTS)9
     // removing car is setting flRemoved in true
 
-    Response clear(String date, int days);
+    Response clear(int days);
 
     // all cars for which the returnDate before currentDate - days with10
     // flRemoved=true

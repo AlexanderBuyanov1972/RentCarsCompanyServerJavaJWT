@@ -163,10 +163,9 @@ public class CarsController {
             @ApiResponse(code = 404, message = "The resource you were trying to reach is not found")})
     @CrossOrigin(origins = httpsUrl, allowedHeaders = allowed_headers)
     @PreAuthorize(hasRoleManager)
-    @GetMapping(value = CarsApiConstants.CLEAR_CARS + "/{date}" + "/{days}")
-    Response clearCars(@PathVariable(value = "date") String date,
-                       @PathVariable(value = "days") int days) {
-        return company.clear(date, days);
+    @GetMapping(value = CarsApiConstants.CLEAR_CARS + "/{days}")
+    Response clearCars(@PathVariable(value = "days") int days) {
+        return company.clear(days);
     }
 
     // ---------------getCarDrivers-------------------------------------------------------------------------------------

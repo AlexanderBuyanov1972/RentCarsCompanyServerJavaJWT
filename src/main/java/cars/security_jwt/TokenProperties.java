@@ -14,7 +14,7 @@ public class TokenProperties {
 
     private String prefix = "Bearer ";
 
-    private int expiration = 86400;
+    private int expiration = 70000000;
 
     private String secret = "JwtSecretKey";
 

@@ -266,9 +266,9 @@ public class RentCompany extends AbstractRentCompany {
 
     @Override
     @Transactional
-    public Response clear(String date, int days) {
+    public Response clear(int days) {
         response = new Response().setCode(goodCode).setTimestamp(currentDate).setContent("");
-        LocalDate ld = LocalDate.parse(date);
+        LocalDate ld = LocalDate.now();
         List<Record> recordsForDelete = recordRepository.findByCarFlRemovedTrueOrReturnDateBefore(ld.minusDays(days));
         recordsForDelete.forEach(recordRepository::delete);
 
