@@ -1,4 +1,4 @@
-package cars.security_jwt.config;
+package cars.security.security_config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -11,8 +11,6 @@ import java.io.IOException;
 
 @Configuration
 public class MvcConfiguration implements WebMvcConfigurer {
-
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")

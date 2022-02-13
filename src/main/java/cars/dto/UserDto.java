@@ -1,26 +1,13 @@
 package cars.dto;
 
+import lombok.Data;
+
+@Data
 public class UserDto {
 	private String username;
 	private String password;
 	private String role;
 	
-	public UserDto() {
-
-	}
-	
-	public String getUsername() {
-		return username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
 	public UserDto setUsername(String username) {
 		this.username = username;
 		return this;

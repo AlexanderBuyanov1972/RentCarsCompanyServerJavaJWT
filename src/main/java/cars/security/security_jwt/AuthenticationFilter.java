@@ -1,4 +1,4 @@
-package cars.security_jwt;
+package cars.security.security_jwt;
 
 
 import cars.dto.UserDto;
@@ -73,14 +73,16 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private String createToken(Authentication auth) {
         long now = System.currentTimeMillis();
-        List<String> authorities = auth.getAuthorities().stream()
+        List<String> authorities = auth
+                .getAuthorities()
+                .stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         return Jwts.builder()
                 .setSubject(auth.getName())
                 .claim("authorities", authorities)
                 .setIssuedAt(new Date(now))
-                .setExpiration(new Date(now + tokenProperties.getExpiration() * 1000))
+                .setExpiration(new Date(now + tokenProperties.getExpiration() * 1000L))
                 .signWith(SignatureAlgorithm.HS512, tokenProperties.getSecret().getBytes())
                 .compact();
     }

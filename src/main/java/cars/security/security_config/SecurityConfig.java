@@ -1,10 +1,10 @@
-package cars.security_jwt.config;
+package cars.security.security_config;
 
 
-import cars.security_jwt.AuthenticationFilter;
-import cars.security_jwt.AuthorizationFilter;
-import cars.security_jwt.CustomUserDetailsService;
-import cars.security_jwt.TokenProperties;
+import cars.security.security_jwt.AuthenticationFilter;
+import cars.security.security_jwt.AuthorizationFilter;
+import cars.security.security_jwt.CustomUserDetailsService;
+import cars.security.security_jwt.TokenProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

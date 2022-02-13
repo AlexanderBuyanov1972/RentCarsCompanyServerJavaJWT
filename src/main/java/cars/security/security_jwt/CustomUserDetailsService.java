@@ -1,4 +1,4 @@
-package cars.security_jwt;
+package cars.security.security_jwt;
 
 import cars.dao.UserRepository;
 import cars.entities.User;
@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Username: %s not found", username)));
     }
 
-    private org.springframework.security.core.userdetails.User getUserDetails(User user) {
+    private UserDetails getUserDetails(User user) {
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
