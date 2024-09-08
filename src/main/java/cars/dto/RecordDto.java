@@ -1,11 +1,15 @@
 package cars.dto;
 
+import cars.entities.Record;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
+
 import java.time.LocalDate;
-@ToString
-@EqualsAndHashCode
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 public class RecordDto {
     private long licenseId;
     private String regNumber;
@@ -18,67 +22,15 @@ public class RecordDto {
     private float cost;
     private int damages;
 
-    public RecordDto() {
-    }
-
-    // *****************Getters****************************
-    public long getLicenseId() {
-        return licenseId;
-    }
-    public LocalDate getReturnDate() {
-        return returnDate;
-    }
-    public String getRegNumber() {
-        return regNumber;
-    }
-    public LocalDate getRentDate() {
-        return rentDate;
-    }
-    public int getGasTankPercent() {
-        return gasTankPercent;
-    }
-    public int getRentDays() {
-        return rentDays;
-    }
-    public float getCost() {
-        return cost;
-    }
-    public int getDamages() {
-        return damages;
-    }
-
-// *****************Setters****************************
-    public RecordDto setLicenseId(long licenseId) {
-        this.licenseId = licenseId;
-        return this;
-    }
-    public RecordDto setRegNumber(String regNumber) {
-        this.regNumber = regNumber;
-        return this;
-    }
-    public RecordDto setRentDate(LocalDate rentDate) {
-        this.rentDate = rentDate;
-        return this;
-    }
-    public RecordDto setReturnDate(LocalDate returnDate) {
-        this.returnDate = returnDate;
-        return this;
-    }
-    public RecordDto setGasTankPercent(int gasTankPercent) {
-        this.gasTankPercent = gasTankPercent;
-        return this;
-    }
-    public RecordDto setRentDays(int rentDays) {
-        this.rentDays = rentDays;
-        return this;
-    }
-    public RecordDto setCost(float cost) {
-        this.cost = cost;
-        return this;
-    }
-    public RecordDto setDamages(int damages) {
-        this.damages = damages;
-        return this;
-    }
+    public RecordDto(Record record) {
+        this.licenseId = record.getDriver().getLicenseId();
+        this.regNumber = record.getCar().getRegNumber();
+        this.rentDate = record.getRentDate();
+        this.returnDate = record.getReturnDate();
+        this.gasTankPercent = record.getGasTankPercent();
+        this.rentDays = record.getRentDays();
+        this.cost = record.getCost();
+        this.damages = record.getDamages();
 
     }
+}

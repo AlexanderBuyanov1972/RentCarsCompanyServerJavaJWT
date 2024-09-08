@@ -1,0 +1,8 @@
+------------------- postgresql ---------------------------
+docker run --name rent_car_company-db -p 5436:5432 -e POSTGRES_DB=rent_car_company -e POSTGRES_USER=rent_car_company -e POSTGRES_PASSWORD=rent_car_company postgres
+docker exec -it rent_car_company-db psql -U rent_car_company
+
+------------------ mongo --------------------------------
+docker run --name mongo_rent_car_company-db -p 27017:27017 mongo
+docker exec -it mongo_rent_car_company-db mongosh mongo_rent_car_company-db
+db.user.find()

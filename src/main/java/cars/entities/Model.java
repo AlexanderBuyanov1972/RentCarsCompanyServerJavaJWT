@@ -1,85 +1,40 @@
 package cars.entities;
 
-import io.swagger.annotations.ApiModelProperty;
+import cars.dto.ModelDto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Table(name = "models")
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Builder
 public class Model {
     @Id
-    @ApiModelProperty(notes = "The model's name as ID")
     private String modelName;
-    @ApiModelProperty(notes = "The gas tank of the model", required = true)
     private int gasTank;
-    @ApiModelProperty(notes = "The company of the model", required = true)
     private String company;
-    @ApiModelProperty(notes = "The country of the model", required = true)
     private String country;
-    @ApiModelProperty(notes = "The day's price of the model", required = true)
     private int priceDay;
-    @ApiModelProperty(notes = "The model's list")
     @OneToMany(mappedBy = "model")
+    @JsonIgnore
     private List<Car> cars;
 
-    public Model() {
-    }
-    // ********** Getters*************************
-
-    public String getModelName() {
-        return modelName;
-    }
-
-    public int getGasTank() {
-        return gasTank;
-    }
-
-    public String getCompany() {
-        return company;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public int getPriceDay() {
-        return priceDay;
-    }
-
-    public List<Car> getCars() {
-        return cars;
-    }
-
-    // ***********Setters*************************
-
-    public Model setModelName(String modelName) {
-        this.modelName = modelName;
-        return this;
-    }
-
-    public Model setGasTank(int gasTank) {
-        this.gasTank = gasTank;
-        return this;
-    }
-
-    public Model setCompany(String company) {
-        this.company = company;
-        return this;
-    }
-
-    public Model setCountry(String country) {
-        this.country = country;
-        return this;
-    }
-
-    public Model setPriceDay(int priceDay) {
-        this.priceDay = priceDay;
-        return this;
-    }
-
-    public Model setCars(List<Car> cars) {
-        this.cars = cars;
-        return this;
+    public Model(ModelDto one) {
+        this.modelName = one.getModelName();
+        this.company = one.getCompany();
+        this.country = one.getCountry();
+        this.priceDay = one.getPriceDay();
+        this.gasTank = one.getGasTank();
     }
 }

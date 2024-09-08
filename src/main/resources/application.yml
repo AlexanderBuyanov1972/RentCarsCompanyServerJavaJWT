@@ -1,0 +1,42 @@
+server:
+  port: 8080
+
+spring:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        temp:
+          use_jdbc_metadata_defaults: false
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+  #  datasource:
+  #    url: jdbc:postgresql://localhost:5436/rent_car_company
+  #    username: rent_car_company
+  #    password: rent_car_company
+  datasource:
+    url: jdbc:postgresql://localhost:5432/rent_cars_company
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/mongo_rent_car_company-db
+security:
+  jwt:
+    secret: motherwasheswindowmotherwasheswindowmotherwasheswindowmotherwasheswindow
+    expiration: 30m
+
+period: 30
+finePercent: 20
+gasPrice: 20
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    shutdown:
+      enabled: true
